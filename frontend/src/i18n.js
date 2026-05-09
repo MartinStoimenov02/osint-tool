@@ -538,6 +538,74 @@ const resources = {
           "emptyUsername": "Моля, въведете потребителско име.",
           "scanError": "Възникна грешка при сканирането. Сървърът може да е претоварен."
         }
+      },
+      "helpCenter": {
+        "title": "Помощен център",
+        "subtitle": "Пълно ръководство и техническа документация за работа с OSI-HR",
+        "q1": {
+          "title": "Какво представлява OSI-HR?",
+          "desc": "Това е високотехнологична OSINT (Open Source Intelligence) платформа, предназначена за HR специалисти, технически рекрутъри и експерти по сигурност. Тя автоматизира агрегирането на неструктурирани данни, използвайки изкуствен интелект за съставяне на прецизни психологически и технически профили на ИТ кандидати."
+        },
+        "q2": {
+          "title": "Как работи Дълбочинният GitHub Анализ?",
+          "desc": "Инструментът извършва комплексен анализ на публичния отпечатък на разработчиците, включвайки:",
+          "li1_bold": "AI Профилиране:",
+          "li1_text": "Gemini AI анализира историята и хранилищата, за да определи предполагаемата роля (напр. Fullstack Developer), разпознати компетенции и да генерира готово резюме за работодатели.",
+          "li2_bold": "Евристично извличане на имейли:",
+          "li2_text": "Алгоритъм сканира commit историята за деанонимизиране на реални контакти, елиминирайки 'noreply' адресите.",
+          "li3_bold": "Cross-Check (Сигурност):",
+          "li3_text": "Автоматична проверка на откритите имейли през HIBP API за участия в изтичания на данни (data breaches).",
+          "li4_bold": "Поведенчески анализ:",
+          "li4_text": "Визуализация на дневната активност (по часове), анализ на топ колаборатори и използвани езици за програмиране."
+        },
+        "q3": {
+          "title": "Corporate Recon (Корпоративно разузнаване)",
+          "desc_p1": "Този модул ви позволява да картографирате фирмената структура на дадена компания чрез въвеждане на нейния домейн. Системата извлича имейл шаблона на организацията и списък с публично разкрити служители и техните позиции (напр. CEO, Sales Director). Инструментът ",
+          "desc_bold": "\"Снайперист\" (Direct Target)",
+          "desc_p2": " позволява прецизно извличане и верификация на имейла на конкретен служител с процентен индикатор за увереност."
+        },
+        "q4": {
+          "title": "Social Media Recon (Анализ на дигитални следи)",
+          "desc_p1": "Модул за крос-платформена елумерация на потребителски имена (Cross-Platform Username Enumeration). Чрез въвеждане на юзърнейм, системата паралелно проверява наличието на профили в Reddit, HackerNews, GitLab и GitHub. За избягване на защитите срещу ботове (WAF), за платформи като LinkedIn и Medium се генерират автоматизирани ",
+          "desc_bold": "Google Dorks",
+          "desc_p2": " заявки."
+        },
+        "q5": {
+          "title": "Управление на досиета и Експорт",
+          "desc_p1": "Всички успешни анализи могат да бъдат съхранени в секция ",
+          "desc_bold1": "\"Запазени досиета\"",
+          "desc_p2": " за бърз достъп до AI профила, контактите и локацията на кандидатите. Допълнително, всеки индивидуален анализ може да бъде запазен локално чрез бутона ",
+          "desc_bold2": "Експорт в PDF",
+          "desc_p3": ", който форматира данните в готов за принтиране професионален доклад."
+        },
+        "q6": {
+          "title": "Локализация и Уведомления",
+          "desc_p1": "Интерфейсът на OSI-HR е напълно двуезичен. От горната навигационна лента (иконата с глобус) можете да превключвате динамично между ",
+          "desc_bold1": "Български",
+          "desc_p2": " и ",
+          "desc_bold2": "English",
+          "desc_p3": ", което автоматично инструктира и AI модела на какъв език да генерира профилите. До нея ще намерите и камбанката за системни ",
+          "desc_bold3": "Уведомления",
+          "desc_p4": ", отчитаща статуса на вашите процеси."
+        },
+        "q7": {
+          "title": "Как да повиша сигурността на акаунта си?",
+          "desc_p1": "Силно препоръчваме да включите ",
+          "desc_bold1": "Двуфакторна автентикация (2FA)",
+          "desc_p2": ". Отидете във вашия \"Профил\", намерете секцията \"Сигурност\" и сканирайте QR кода с приложение като Google Authenticator.",
+          "warning_label": "Важно:",
+          "warning_text": " Не забравяйте да запазите своите Recovery (възстановителни) кодове при настройката, в случай че изгубите достъп до телефона си!"
+        },
+        "q8": {
+          "title": "Забравих си паролата. Какво да правя?",
+          "desc_p1": "На страницата за вход кликнете върху линка ",
+          "desc_bold": "„Забравена парола?“",
+          "desc_p2": ". Въведете своя имейл адрес и ще получите 6-цифрен код за верификация, с който да възстановите достъпа си до системата чрез сигурна сесия."
+        },
+        "q9": {
+          "title": "Контакти и техническа поддръжка",
+          "desc_p1": "За рапортуване на бъгове, обратна връзка или интеграция на нови API източници, използвайте формата в своя Профил. За партньорства и административни въпроси, свържете се директно на "
+        }
       }
     }
   },
@@ -1075,6 +1143,74 @@ const resources = {
         "errors": {
           "emptyUsername": "Please enter a username.",
           "scanError": "An error occurred during scanning. The server may be overloaded."
+        }
+      },
+      "helpCenter": {
+        "title": "Help Center",
+        "subtitle": "Complete guide and technical documentation for using OSI-HR",
+        "q1": {
+          "title": "What is OSI-HR?",
+          "desc": "This is a high-tech OSINT (Open Source Intelligence) platform designed for HR specialists, technical recruiters, and security experts. It automates the aggregation of unstructured data, using artificial intelligence to create precise psychological and technical profiles of IT candidates."
+        },
+        "q2": {
+          "title": "How does Deep GitHub Analysis work?",
+          "desc": "The tool performs a complex analysis of the developers' public footprint, including:",
+          "li1_bold": "AI Profiling:",
+          "li1_text": "Gemini AI analyzes the history and repositories to determine the assumed role (e.g., Fullstack Developer), recognized competencies, and generate a ready-to-use employer summary.",
+          "li2_bold": "Heuristic email extraction:",
+          "li2_text": "An algorithm scans the commit history to deanonymize real contacts, filtering out 'noreply' addresses.",
+          "li3_bold": "Cross-Check (Security):",
+          "li3_text": "Automated verification of discovered emails via the HIBP API for data breaches.",
+          "li4_bold": "Behavioral analysis:",
+          "li4_text": "Visualization of daily activity (by hours), analysis of top collaborators, and programming languages used."
+        },
+        "q3": {
+          "title": "Corporate Recon",
+          "desc_p1": "This module allows you to map the corporate structure of a given company by entering its domain. The system extracts the organization's email pattern and a list of publicly disclosed employees and their positions (e.g., CEO, Sales Director). The ",
+          "desc_bold": "\"Sniper\" (Direct Target)",
+          "desc_p2": " tool allows for precise extraction and verification of a specific employee's email with a confidence percentage indicator."
+        },
+        "q4": {
+          "title": "Social Media Recon (Digital Footprints)",
+          "desc_p1": "A module for Cross-Platform Username Enumeration. By entering a username, the system checks in parallel for profiles on Reddit, HackerNews, GitLab, and GitHub. To bypass bot protections (WAF) for platforms like LinkedIn and Medium, automated ",
+          "desc_bold": "Google Dorks",
+          "desc_p2": " queries are generated."
+        },
+        "q5": {
+          "title": "Profile Management and Export",
+          "desc_p1": "All successful analyses can be stored in the ",
+          "desc_bold1": "\"Saved Profiles\"",
+          "desc_p2": " section for quick access to the AI profile, contacts, and candidate location. Additionally, each individual analysis can be saved locally via the ",
+          "desc_bold2": "Export to PDF",
+          "desc_p3": " button, which formats the data into a print-ready professional report."
+        },
+        "q6": {
+          "title": "Localization and Notifications",
+          "desc_p1": "The OSI-HR interface is fully bilingual. From the top navigation bar (the globe icon), you can dynamically switch between ",
+          "desc_bold1": "Bulgarian",
+          "desc_p2": " and ",
+          "desc_bold2": "English",
+          "desc_p3": ", which automatically instructs the AI model on which language to generate the profiles in. Next to it, you will find the bell icon for system ",
+          "desc_bold3": "Notifications",
+          "desc_p4": ", tracking the status of your processes."
+        },
+        "q7": {
+          "title": "How do I increase my account security?",
+          "desc_p1": "We strongly recommend enabling ",
+          "desc_bold1": "Two-Factor Authentication (2FA)",
+          "desc_p2": ". Go to your \"Profile\", find the \"Security\" section, and scan the QR code with an app like Google Authenticator.",
+          "warning_label": "Important:",
+          "warning_text": " Do not forget to save your Recovery codes during setup, in case you lose access to your phone!"
+        },
+        "q8": {
+          "title": "I forgot my password. What should I do?",
+          "desc_p1": "On the login page, click the ",
+          "desc_bold": "„Forgot password?“",
+          "desc_p2": " link. Enter your email address and you will receive a 6-digit verification code to restore your access to the system via a secure session."
+        },
+        "q9": {
+          "title": "Contacts and Technical Support",
+          "desc_p1": "To report bugs, provide feedback, or discuss the integration of new API sources, use the form in your Profile. For partnerships and administrative inquiries, contact us directly at "
         }
       }
     }

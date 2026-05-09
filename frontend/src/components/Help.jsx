@@ -1,7 +1,22 @@
 import React from 'react';
-import { FaQuestionCircle, FaGithub, FaShieldAlt, FaKey, FaEnvelope, FaSearch } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
+import { 
+  FaQuestionCircle, 
+  FaGithub, 
+  FaShieldAlt, 
+  FaKey, 
+  FaEnvelope, 
+  FaSearch, 
+  FaBuilding, 
+  FaFingerprint, 
+  FaFolderOpen, 
+  FaFilePdf,
+  FaGlobe 
+} from "react-icons/fa";
 
 const Help = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-slate-900 p-4 md:p-8 flex justify-center items-start pt-20">
       <div className="w-full max-w-4xl bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden">
@@ -10,8 +25,8 @@ const Help = () => {
           <div className="text-6xl text-blue-500 mb-4">
             <FaQuestionCircle />
           </div>
-          <h2 className="text-3xl font-black text-white uppercase tracking-wider">Помощен център</h2>
-          <p className="text-slate-400 mt-2">Често задавани въпроси за работа с OSI-HR</p>
+          <h2 className="text-3xl font-black text-white uppercase tracking-wider">{t('helpCenter.title')}</h2>
+          <p className="text-slate-400 mt-2">{t('helpCenter.subtitle')}</p>
         </div>
 
         <div className="p-8 space-y-6">
@@ -19,51 +34,119 @@ const Help = () => {
           <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
             <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
               <FaSearch className="text-blue-400" /> 
-              Какво представлява OSI-HR?
+              {t('helpCenter.q1.title')}
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Това е специализирана платформа, предназначена за HR специалисти, хедхънтъри и експерти по корпоративна сигурност. Тя автоматизира събирането и анализа на публична информация (Open Source Intelligence), за да ви помогне да профилирате ИТ кандидати и да проучвате технологични компании.
+              {t('helpCenter.q1.desc')}
             </p>
           </section>
 
           <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
             <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
               <FaGithub className="text-blue-400" /> 
-              Как работи Дълбочинният GitHub Анализ?
+              {t('helpCenter.q2.title')}
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed mb-3">
+              {t('helpCenter.q2.desc')}
+            </p>
+            <ul className="list-disc list-inside text-sm text-slate-300 space-y-1 ml-2">
+              <li><strong>{t('helpCenter.q2.li1_bold')}</strong> {t('helpCenter.q2.li1_text')}</li>
+              <li><strong>{t('helpCenter.q2.li2_bold')}</strong> {t('helpCenter.q2.li2_text')}</li>
+              <li><strong>{t('helpCenter.q2.li3_bold')}</strong> {t('helpCenter.q2.li3_text')}</li>
+              <li><strong>{t('helpCenter.q2.li4_bold')}</strong> {t('helpCenter.q2.li4_text')}</li>
+            </ul>
+          </section>
+
+          <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
+              <FaBuilding className="text-blue-400" /> 
+              {t('helpCenter.q3.title')}
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
-              В секцията за инструменти можете да търсите разработчици по тяхното потребителско име. Системата автоматично анализира техните публични хранилища, езици за програмиране, активност и реален технологичен стек, спестявайки ви часове ръчно проучване.
+              {t('helpCenter.q3.desc_p1')}
+              <strong>{t('helpCenter.q3.desc_bold')}</strong>
+              {t('helpCenter.q3.desc_p2')}
+            </p>
+          </section>
+
+          <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
+              <FaFingerprint className="text-blue-400" /> 
+              {t('helpCenter.q4.title')}
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              {t('helpCenter.q4.desc_p1')}
+              <strong>{t('helpCenter.q4.desc_bold')}</strong>
+              {t('helpCenter.q4.desc_p2')}
+            </p>
+          </section>
+
+          <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
+              <FaFolderOpen className="text-blue-400" /> 
+              {t('helpCenter.q5.title')}
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              {t('helpCenter.q5.desc_p1')}
+              <strong>{t('helpCenter.q5.desc_bold1')}</strong>
+              {t('helpCenter.q5.desc_p2')}
+              <strong className="inline-flex items-center gap-1"><FaFilePdf className="text-red-400"/> {t('helpCenter.q5.desc_bold2')}</strong>
+              {t('helpCenter.q5.desc_p3')}
+            </p>
+          </section>
+
+          <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
+              <FaGlobe className="text-blue-400" /> 
+              {t('helpCenter.q6.title')}
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              {t('helpCenter.q6.desc_p1')}
+              <strong>{t('helpCenter.q6.desc_bold1')}</strong>
+              {t('helpCenter.q6.desc_p2')}
+              <strong>{t('helpCenter.q6.desc_bold2')}</strong>
+              {t('helpCenter.q6.desc_p3')}
+              <strong>{t('helpCenter.q6.desc_bold3')}</strong>
+              {t('helpCenter.q6.desc_p4')}
             </p>
           </section>
 
           <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
             <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
               <FaShieldAlt className="text-blue-400" /> 
-              Как да повиша сигурността на акаунта си?
+              {t('helpCenter.q7.title')}
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Силно препоръчваме да включите <strong>Двуфакторна автентикация (2FA)</strong>. Отидете във вашия "Профил", намерете секцията "Сигурност" и сканирайте QR кода с приложение като Google Authenticator. <br/><br/>
-              <span className="text-red-400 font-bold">Важно:</span> Не забравяйте да запазите своите Recovery (възстановителни) кодове при настройката, в случай че изгубите достъп до телефона си!
+              {t('helpCenter.q7.desc_p1')}
+              <strong>{t('helpCenter.q7.desc_bold1')}</strong>
+              {t('helpCenter.q7.desc_p2')} <br/><br/>
+              <span className="text-red-400 font-bold">{t('helpCenter.q7.warning_label')}</span>
+              {t('helpCenter.q7.warning_text')}
             </p>
           </section>
 
           <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
             <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
               <FaKey className="text-blue-400" /> 
-              Забравих си паролата. Какво да правя?
+              {t('helpCenter.q8.title')}
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
-              На страницата за вход кликнете върху линка <strong>„Забравена парола?“</strong>. Въведете своя имейл адрес и ще получите 6-цифрен код за верификация, с който да възстановите достъпа си до системата.
+              {t('helpCenter.q8.desc_p1')}
+              <strong>{t('helpCenter.q8.desc_bold')}</strong>
+              {t('helpCenter.q8.desc_p2')}
             </p>
           </section>
 
           <section className="bg-slate-900/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500/50 transition-colors group">
             <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-3">
               <FaEnvelope className="text-blue-400" /> 
-              Как мога да дам обратна връзка или да се свържа с екипа?
+              {t('helpCenter.q9.title')}
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Можете да използвате бутона <strong>"Обратна връзка"</strong> директно във вашия Профил, за да ни изпратите бързо съобщение. За по-сериозни въпроси и партньорства, пишете ни на <a href="mailto:martinstoimenov02@gmail.com" className="text-blue-400 hover:underline">martinstoimenov02@gmail.com</a>.
+              {t('helpCenter.q9.desc_p1')}
+              <a href="mailto:martinstoimenov02@gmail.com" className="text-blue-400 hover:underline">
+                martinstoimenov02@gmail.com
+              </a>.
             </p>
           </section>
 

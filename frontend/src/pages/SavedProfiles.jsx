@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PrintableReport from '../components/PrintableReport';
-import { useReactToPrint } from 'react-to-print';
 import axios from 'axios';
 import { 
   FaFolderOpen, FaTrash, FaGithub, FaMapMarkerAlt, 

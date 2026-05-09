@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
 import PDFExportButton from '../components/PDFExportButton';
 import PrintableReport from '../components/PrintableReport';
-import { useReactToPrint } from 'react-to-print'; 
 
 const GitHubProfiler = () => {
   const { t, i18n } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
