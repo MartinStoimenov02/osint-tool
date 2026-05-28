@@ -12,7 +12,6 @@ const Notifications = ({ setHasUnreadNotifications }) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
   const user = useSelector((state) => state.user.user); 
 
-  // Ефект 1: Зареждане на нотификациите
   useEffect(() => {
     if (user) {
       const fetchNotifications = async () => {
@@ -38,7 +37,6 @@ const Notifications = ({ setHasUnreadNotifications }) => {
     }
   }, [user, backendUrl, t]);
 
-  // Ефект 2 (НОВО): Безопасно обновяване на Header-а при промяна в нотификациите
   useEffect(() => {
     if (setHasUnreadNotifications) {
       // Проверяваме дали има поне една непрочетена нотификация
@@ -59,7 +57,6 @@ const Notifications = ({ setHasUnreadNotifications }) => {
          notificationId: notificationId
       });
       
-      // ТУК Е ПОПРАВКАТА: Премахнат е страничният ефект. Функцията вече е чиста.
       setNotifications((prevNotifications) => 
         prevNotifications.map((notification) =>
           notification._id === notificationId
