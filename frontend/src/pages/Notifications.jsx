@@ -2,26 +2,25 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { FaBell, FaCheckCircle } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next';
 
 const Notifications = ({ setHasUnreadNotifications }) => {
-  const { t, i18n } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ
+  const { t, i18n } = useTranslation();
 
   const [notifications, setNotifications] = useState([]);
   
-  // ✅ Поправка за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
   const user = useSelector((state) => state.user.user); 
 
+  // Ефект 1: Зареждане на нотификациите
   useEffect(() => {
     if (user) {
       const fetchNotifications = async () => {
         try {
           const response = await axios.get(`${backendUrl}/notifications/getNotificationsForUser`, {
-            params: { userId: user.id || user._id } // Гарантираме, че хваща правилното ID
+            params: { userId: user.id || user._id }
           }); 
           
-          // Сортираме най-новите първи (ако бекендът не го прави)
           const sortedData = (response.data.data || []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setNotifications(sortedData);
           
@@ -37,11 +36,19 @@ const Notifications = ({ setHasUnreadNotifications }) => {
 
       fetchNotifications();
     }
-  }, [user, backendUrl]);
+  }, [user, backendUrl, t]);
+
+  // Ефект 2 (НОВО): Безопасно обновяване на Header-а при промяна в нотификациите
+  useEffect(() => {
+    if (setHasUnreadNotifications) {
+      // Проверяваме дали има поне една непрочетена нотификация
+      const hasUnread = notifications.some((n) => !n.isRead);
+      setHasUnreadNotifications(hasUnread);
+    }
+  }, [notifications, setHasUnreadNotifications]);
 
   const formatDate = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-    // Динамично сменяме локала според избрания език
     const locale = i18n.language === 'bg' ? 'bg-BG' : 'en-US';
     return new Date(date).toLocaleDateString(locale, options);
   };
@@ -52,21 +59,14 @@ const Notifications = ({ setHasUnreadNotifications }) => {
          notificationId: notificationId
       });
       
-      setNotifications((prevNotifications) => {
-        const updated = prevNotifications.map((notification) =>
+      // ТУК Е ПОПРАВКАТА: Премахнат е страничният ефект. Функцията вече е чиста.
+      setNotifications((prevNotifications) => 
+        prevNotifications.map((notification) =>
           notification._id === notificationId
             ? { ...notification, isRead: true }
             : notification
-        );
-
-        // Проверка дали всички са прочетени, за да се обнови червената точка в Header-а
-        const allRead = updated.every((n) => n.isRead);
-        if (setHasUnreadNotifications) {
-           setHasUnreadNotifications(!allRead);
-        }
-
-        return updated;
-      });
+        )
+      );
     } catch (error) {
       const backendError = error.response?.data?.error;
       if (backendError === 'NOTIFICATION_NOT_FOUND') {
