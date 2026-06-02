@@ -5,7 +5,7 @@ const {
     deleteMultipleLogs 
 } = require('../controllers/logs.controller.js');
 
-// Импортираме защитата
+// Импорт на защитата
 const { authMiddleware, adminMiddleware } = require('../middleware/auth.middleware.js');
 
 const router = express.Router();

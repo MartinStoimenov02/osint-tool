@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-    // Вземаме токена от хедъра (Bearer <token>)
+    // токена от хедъра (Bearer <token>)
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -14,13 +14,12 @@ const authMiddleware = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     try {
-        // Проверяваме дали токенът е валиден
+        // Проверка дали токенът е валиден
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_secret_key');
         
-        // Закачаме данните на потребителя към обекта req, за да ги ползваме в контролерите
         req.user = decoded;
         
-        next(); // Пускаме заявката към контролера
+        next(); // заявката се пуска към контролера
     } catch (err) {
         return res.status(403).json({ 
             success: false, 

@@ -14,12 +14,12 @@ const savedProfileSchema = new mongoose.Schema({
     },
     extracted_emails: [String],
     
-    // Използваме Mixed за сложни/динамични обекти
+    // Mixed - за сложни/динамични обекти
     ai_profiling: mongoose.Schema.Types.Mixed,
     osint_extras: mongoose.Schema.Types.Mixed,
     repositories: mongoose.Schema.Types.Mixed,
     
-    // Връзка към потребителя, който е запазил профила (твоят HR)
+    // Връзка към потребителя, който е запазил профила (HR)
     savedBy: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User', 

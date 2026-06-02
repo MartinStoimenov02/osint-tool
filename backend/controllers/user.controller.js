@@ -7,7 +7,6 @@ const deleteUserAndRelatedData = require('../utils/deleteUserAndRelatedData.js')
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
 
-// ВАЖНО: Импортираме функцията за изпращане на имейли
 const { sendEmail } = require('../utils/email.js');
 
 // Хешираща функция (SHA-256)
@@ -76,7 +75,7 @@ const getUser = async (req, res, next) => {
             });
         }
 
-        // Генерираме JWT токен при успешен вход
+        // Генериране на JWT токен при успешен вход
         const token = generateToken(user);
 
         user.lastLogin = new Date();
@@ -85,7 +84,7 @@ const getUser = async (req, res, next) => {
         res.json({
             success: true,
             message: "LOGIN_SUCCESS",
-            token: token, // Пращаме токена към фронтенда
+            token: token, // токена се праща към фронтенда
             user: {
                 id: user._id,
                 name: user.name,
@@ -97,7 +96,7 @@ const getUser = async (req, res, next) => {
                 hasPassword: user.password != undefined,
                 isAdmin: user.isAdmin,
                 isTwoFactorEnabled: user.isTwoFactorEnabled,
-                isAccepted: user.isAccepted // Връщаме състоянието
+                isAccepted: user.isAccepted 
             }
         });
 
@@ -156,7 +155,7 @@ const createUser = async (req, res, next) => {
 
         await newUser.save();
 
-        // Изпращаме имейл, че заявката се обработва
+        // Изпращане на имейл, че заявката се обработва
         await sendEmail(
             email, 
             "OSI-HR Registration Request",
@@ -235,7 +234,7 @@ const googleAuth = async (req, res, next) => {
 
             await user.save();
 
-            // Изпращаме имейл, че заявката се обработва
+            // Изпращане на имейл, че заявката се обработва
             await sendEmail(
                 email, 
                 "OSI-HR Registration Request",
@@ -266,7 +265,7 @@ const googleAuth = async (req, res, next) => {
         user.lastLogin = new Date();
         await user.save();
 
-        // Генерираме JWT токен и за Google потребителя
+        // Генериране на JWT токен и за Google потребителя
         const token = generateToken(user);
 
         res.status(200).json({
@@ -284,7 +283,7 @@ const googleAuth = async (req, res, next) => {
                 hasPassword: user.password != undefined,
                 isAdmin: user.isAdmin,
                 isTwoFactorEnabled: user.isTwoFactorEnabled,
-                isAccepted: user.isAccepted // Връщаме състоянието
+                isAccepted: user.isAccepted // Връщане на състоянието
             }
         });
 
@@ -377,8 +376,6 @@ const updateUser = async (req, res, next) => {
     }
 };
 
-// --- НОВИ 2FA ФУНКЦИИ ---
-
 const generate2FA = async (req, res, next) => {
     try {
         const { userId } = req.body;
@@ -426,7 +423,7 @@ const verify2FASetup = async (req, res, next) => {
             user.isTwoFactorEnabled = true;
             await user.save();
 
-            // --- НОВО: Изпращаме имейл за успешно активиране ---
+            // Изпращане на имейл за успешно активиране
             await sendEmail(
                 user.email,
                 "Security Update: Two-Factor Authentication Enabled",
@@ -494,7 +491,7 @@ const verify2FALogin = async (req, res, next) => {
                     hasPassword: user.password != undefined,
                     isAdmin: user.isAdmin,
                     isTwoFactorEnabled: user.isTwoFactorEnabled,
-                    isAccepted: user.isAccepted // Връщаме състоянието
+                    isAccepted: user.isAccepted // Връщане на състоянието
                 }
             });
         } else {
@@ -531,7 +528,7 @@ const disable2FA = async (req, res, next) => {
     }
 };
 
-// --- НОВИ ФУНКЦИИ ЗА ОДОБРЯВАНЕ ОТ АДМИН ---
+// ФУНКЦИИ ЗА ОДОБРЯВАНЕ ОТ АДМИН
 
 const approveUser = async (req, res) => {
     try {
@@ -598,6 +595,6 @@ module.exports = {
     verify2FASetup,
     verify2FALogin,
     disable2FA,
-    approveUser,  // Експортираме новата функция
-    rejectUser    // Експортираме новата функция
+    approveUser,  
+    rejectUser    
 };

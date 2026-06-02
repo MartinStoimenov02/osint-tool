@@ -52,7 +52,7 @@ const UserScheme = new mongoose.Schema({
     twoFactorRecoveryCodes: {
         type: [String], // Масив с бекъп кодове
     },
-    // --- НОВО: Поле за одобрение от администратор ---
+    // Поле за одобрение от администратор
     isAccepted: {
         type: Boolean,
         default: false

@@ -19,7 +19,6 @@ exports.createFeedback = async (req, res, next) => {
             message: 'FEEDBACK_CREATED',
         });
     } catch (err) {
-        next(err);
         logError(err, req, { className: 'feedback.controller', functionName: 'createFeedback', user: req.body.userId });
         console.error("Error creating feedback:", err);
         res.status(500).json({
@@ -37,7 +36,6 @@ exports.getAllFeedback = async (req, res, next) => {
   
       res.status(200).json({ success: true, feedback: feedbackList });
     } catch (err) {
-      next(err);
       console.error(err);
       logError(err, req, { className: 'feedback.controller', functionName: 'getAllFeedback' });
       res.status(500).json({ success: false, error: 'ERROR_FETCHING_FEEDBACK' });
@@ -49,7 +47,6 @@ exports.deleteFeedbackById = async (req, res, next) => {
       await FeedbackModel.findByIdAndDelete(req.params.id);
       res.status(200).json({ success: true, message: 'FEEDBACK_DELETED' });
     } catch (err) {
-      next(err);
       console.error(err);
       logError(err, req, { className: 'feedback.controller', functionName: 'deleteFeedbackById' });
       res.status(500).json({ success: false, error: 'ERROR_DELETING_FEEDBACK' });
@@ -62,7 +59,6 @@ exports.deleteMultipleFeedback = async (req, res, next) => {
       await FeedbackModel.deleteMany({ _id: { $in: ids } });
       res.status(200).json({ success: true, message: 'MULTIPLE_FEEDBACK_DELETED' });
     } catch (err) {
-      next(err);
       console.error(err);
       logError(err, req, { className: 'feedback.controller', functionName: 'deleteMultipleFeedback' });
       res.status(500).json({ success: false, error: 'ERROR_DELETING_MULTIPLE_FEEDBACK' });

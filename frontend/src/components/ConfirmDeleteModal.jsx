@@ -1,9 +1,9 @@
 import React from "react";
 import { FaExclamationTriangle, FaTimes } from "react-icons/fa";
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const ConfirmDeleteModal = ({ onConfirm, onCancel }) => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ
 
   return (
     <div className="fixed inset-0 z-[150] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 font-sans">

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaTrash, FaTerminal, FaHistory, FaTrashAlt, FaExclamationCircle } from 'react-icons/fa';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const AdminLogs = () => {
-  const { t, i18n } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t, i18n } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [logs, setLogs] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
@@ -15,7 +15,6 @@ const AdminLogs = () => {
   const [deleteTargetId, setDeleteTargetId] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  // КОРЕКЦИЯ ЗА VITE
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const fetchLogs = async () => {
@@ -23,7 +22,6 @@ const AdminLogs = () => {
       const res = await axios.get(`${backendUrl}/logs/getAllLogs`);
       setLogs(res.data.logs || res.data);
     } catch (err) {
-      // ТУК Е ПРОМЯНАТА
       const backendError = err.response?.data?.error;
       if (backendError === 'ERROR_FETCHING_LOGS') {
          console.error(t('adminLogs.errors.fetchFailed', 'Грешка при зареждането на логовете'));
@@ -53,7 +51,6 @@ const AdminLogs = () => {
       }
       fetchLogs();
     } catch (err) {
-      // ТУК Е ПРОМЯНАТА
       console.error('Error deleting logs:', err);
       const backendError = err.response?.data?.error;
       

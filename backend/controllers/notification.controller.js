@@ -25,7 +25,6 @@ exports.addNotification = async (req, res, next) => {
       data: newNotification
     });
   } catch (err) {
-    next(err);
     logError(err, req, { className: 'notification.controller', functionName: 'addNotification' });
     console.error("Error adding notification: ", err);
     res.status(500).json({
@@ -97,7 +96,6 @@ exports.getNotificationsForUser = async (req, res, next) => {
       })),
     });
   } catch (err) {
-    next(err);
     logError(err, req, { className: 'notification.controller', functionName: 'getNotificationsForUser', user: req.query.userId });
     console.error('Error fetching notifications:', err);
     res.status(500).json({
@@ -129,7 +127,6 @@ exports.markAsRead = async (req, res, next) => {
       data: userNotification,
     });
   } catch (err) {
-    next(err);
     logError(err, req, { className: 'notification.controller', functionName: 'markAsRead' });
     console.error('Error marking notification as read:', err);
     res.status(500).json({

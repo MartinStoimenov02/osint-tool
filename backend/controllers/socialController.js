@@ -4,7 +4,6 @@ const scanUsername = async (req, res) => {
     try {
         const { username } = req.query;
         if (!username) {
-            // Сменяме текстовото съобщение със системен код
             return res.status(400).json({ error: 'MISSING_USERNAME' });
         }
 
@@ -12,7 +11,7 @@ const scanUsername = async (req, res) => {
         
         const results = await socialScanner.scanAllSocials(username);
 
-        // Сортираме: първо намерените, после ненамерените
+        // първо намерените, после ненамерените
         results.sort((a, b) => {
             if (a.status === 'FOUND' && b.status !== 'FOUND') return -1;
             if (a.status !== 'FOUND' && b.status === 'FOUND') return 1;
@@ -23,7 +22,6 @@ const scanUsername = async (req, res) => {
 
     } catch (error) {
         console.error("Social Scanner Error:", error.message);
-        // Сменяме съобщението за сървърна грешка
         return res.status(500).json({ error: 'SOCIAL_SCAN_ERROR' });
     }
 };

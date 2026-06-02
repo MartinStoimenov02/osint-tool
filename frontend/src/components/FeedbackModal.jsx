@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useSelector } from 'react-redux';
 import Axios from "axios";
 import { FaStar, FaTimes } from "react-icons/fa";
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const FeedbackModal = ({ isOpen, onClose, setIsModalOpenSuccess }) => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ
 
   const [feedbackType, setFeedbackType] = useState("");
   const [message, setMessage] = useState("");
@@ -15,7 +15,6 @@ const FeedbackModal = ({ isOpen, onClose, setIsModalOpenSuccess }) => {
   
   const user = useSelector((state) => state.user.user); 
   
-  // Корекция за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const handleSubmit = async (e) => {
@@ -46,7 +45,7 @@ const FeedbackModal = ({ isOpen, onClose, setIsModalOpenSuccess }) => {
     };
 
     try {
-      // Ползваме Axios вместо fetch за автоматичен JWT токен
+      // Ползва се Axios вместо fetch за автоматичен JWT токен
       const res = await Axios.post(`${backendUrl}/feedback/createFeedback`, feedbackData);
 
       if (res.data.success) {
@@ -62,7 +61,6 @@ const FeedbackModal = ({ isOpen, onClose, setIsModalOpenSuccess }) => {
       if (backendError === 'ERROR_CREATING_FEEDBACK') {
           setMessageAlert(t('feedbackModal.errors.createFailed', "Грешка при записването на обратната връзка!"));
       } else {
-          // Fallback
           setMessageAlert(t('feedbackModal.submitError', "Грешка при изпращане."));
       }
 

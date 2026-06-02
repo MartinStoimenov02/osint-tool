@@ -9,7 +9,6 @@ exports.getAllLogs = async (req, res, next) => {
 
         res.status(200).json({ success: true, logs: logsList });
     } catch (err) {
-        next(err);
         console.error(err);
         logError(err, req, { className: 'logs.controller', functionName: 'getAllLogs' });
         res.status(500).json({ success: false, error: 'ERROR_FETCHING_LOGS' });
@@ -21,7 +20,6 @@ exports.deleteLogById = async (req, res, next) => {
         await LogModel.findByIdAndDelete(req.params.id);
         res.status(200).json({ success: true, message: 'LOG_DELETED' });
     } catch (err) {
-        next(err);
         console.error(err);
         logError(err, req, { className: 'logs.controller', functionName: 'deleteLogById' });
         res.status(500).json({ success: false, error: 'ERROR_DELETING_LOG' });
@@ -34,7 +32,6 @@ exports.deleteMultipleLogs = async (req, res, next) => {
         await LogModel.deleteMany({ _id: { $in: ids } });
         res.status(200).json({ success: true, message: 'MULTIPLE_LOGS_DELETED' });
     } catch (err) {
-        next(err);
         console.error(err);
         logError(err, req, { className: 'logs.controller', functionName: 'deleteMultipleLogs' });
         res.status(500).json({ success: false, error: 'ERROR_DELETING_MULTIPLE_LOGS' });

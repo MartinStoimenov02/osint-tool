@@ -39,7 +39,7 @@ const Notifications = ({ setHasUnreadNotifications }) => {
 
   useEffect(() => {
     if (setHasUnreadNotifications) {
-      // Проверяваме дали има поне една непрочетена нотификация
+      // Проверка дали има поне една непрочетена нотификация
       const hasUnread = notifications.some((n) => !n.isRead);
       setHasUnreadNotifications(hasUnread);
     }

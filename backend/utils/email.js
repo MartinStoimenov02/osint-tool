@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// КРИТИЧНО: Добавен е импортът на логъра, за да не хвърля ReferenceError в catch блока
 const logError = require('../utils/logger.js'); 
 
 const { SENDER_EMAIL, SENDER_PASSWORD } = process.env;
@@ -27,8 +26,6 @@ exports.sendEmail = async (to, subject, html) => {
 
     await transporter.sendMail(mailOptions);
   } catch (err) {
-    // Премахнат е next(err), тъй като това не е мидълуер/контролер и няма достъп до next.
-    // Контролерът, който вика sendEmail, ще хване тази грешка и ще изпълни своя next().
     console.error("Error sending email:", err);
     logError(err, null, { className: 'email', functionName: 'sendEmail' });
     throw err; 

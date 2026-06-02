@@ -1,6 +1,6 @@
 const express = require('express');
 const savedProfileController = require('../controllers/savedProfileController');
-const { authMiddleware } = require('../middleware/auth.middleware.js'); // Сложи точния път
+const { authMiddleware } = require('../middleware/auth.middleware.js'); 
 
 const router = express.Router();
 

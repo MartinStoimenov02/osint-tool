@@ -14,7 +14,7 @@ const PrintableReport = forwardRef(({ profile, currentUser }, ref) => {
   
   const languages = Array.from(new Set(repos.map(r => r.language).filter(Boolean)));
 
-  // Форматираме датата спрямо избрания език
+  // Форматиране на датата спрямо избрания език
   const dateStr = new Date().toLocaleDateString(i18n.language === 'bg' ? 'bg-BG' : 'en-US');
 
   return (

@@ -34,7 +34,7 @@ const getRepoCommits = async (username, repoName) => {
     return response.data;
 };
 
-// --- НОВО: Извличане на Gist-ове ---
+// Извличане на Gist-ове
 const getUserGists = async (username) => {
     const response = await axios.get(`https://api.github.com/users/${username}/gists`, { headers: getHeaders() });
     return response.data;
@@ -45,5 +45,5 @@ module.exports = {
     getUserDetails,
     getUserRepos,
     getRepoCommits,
-    getUserGists // Експортираме го
+    getUserGists
 };

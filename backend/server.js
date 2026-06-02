@@ -40,7 +40,7 @@ if (!mongoDbConnection) {
     process.exit(1);
 }
 
-// Свързване с базата данни (без top-level await, съобразено с CommonJS)
+// Свързване с базата данни
 mongoose.connect(mongoDbConnection, {
     family: 4, 
     serverSelectionTimeoutMS: 5000 

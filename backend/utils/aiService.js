@@ -1,16 +1,16 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-require('dotenv').config(); // Зареждаме ключа от .env файла
+require('dotenv').config(); // Зареждане ключа от .env файла
 
-// Инициализираме клиента
+// Инициализация на клиента
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const generateOsintProfile = async (githubRawData, lang = 'bg') => { 
     try {
-        // Конфигурираме модела за сложни анализи и структуриран JSON изход
+        // Конфигуриране на модела за сложни анализи и структуриран JSON изход
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash",
             generationConfig: {
-                responseMimeType: "application/json", // Задължаваме го да връща чист JSON
+                responseMimeType: "application/json", // да връща чист JSON
                 temperature: 0.1 // Ниска температура за максимална прецизност и фактология
             }
         });
@@ -39,7 +39,7 @@ const generateOsintProfile = async (githubRawData, lang = 'bg') => {
         const result = await model.generateContent(prompt);
         const responseText = result.response.text();
         
-        // Парсваме върнатия JSON стринг към реален JavaScript обект
+        // Парсване на върнатия JSON стринг към реален JavaScript обект
         return JSON.parse(responseText);
 
     } catch (error) {

@@ -5,7 +5,7 @@ const {
     sendNotificationEmail 
 } = require('../controllers/email.controller.js');
 
-// Импортираме защитата
+// Импорт на защитата
 const { authMiddleware, adminMiddleware } = require('../middleware/auth.middleware.js');
 
 const router = express.Router();
@@ -17,9 +17,9 @@ router.post("/verifyCode", verifyCode);
 
 // --- ЗАЩИТЕНИ/АДМИН РУТОВЕ ---
 /**
- * Изпращането на произволни нотификационни имейли трябва да е строго ограничено.
- * Ако го оставиш публичен, някой може да ползва твоя сървър за SPAM ботнет 
- * и да ти блокират имейл хостинга (SendGrid/Gmail/Nodemailer).
+ * Изпращането на произволни нотификационни имейли трябва да е строго ограничено,
+ * за да не се използва сървъра за SPAM ботнет 
+ * и да блокира имейл хостинга.
  */
 router.post("/sendNotificationEmail", authMiddleware, adminMiddleware, sendNotificationEmail);
 

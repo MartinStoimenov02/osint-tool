@@ -6,11 +6,11 @@ import { jwtDecode } from "jwt-decode";
 import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../redux/userSlice';
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 import backgroundImage from "../images/photo-3.jpeg";
 
 function Signup() {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [formData, setFormData] = useState({
     name: "",
@@ -28,13 +28,12 @@ function Signup() {
   // State за модалите
   const [showModal, setShowModal] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
-  // --- НОВО: State за модала "Изчакване на одобрение" ---
+  // State за модала "Изчакване на одобрение"
   const [showPendingModal, setShowPendingModal] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Използваме променливата от .env за бекенда (нагласена на http://localhost:5000)
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const handleChange = (e) => {
@@ -49,7 +48,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. Фронтенд Валидация
+    // Фронтенд Валидация
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,}$/;
     const phoneRegex = /^[0-9+/]+$/;
 
@@ -72,18 +71,17 @@ function Signup() {
     setLoading(true);
 
     try {
-      // 2. Бекенд валидация
+      // Бекенд валидация
       const validationRes = await Axios.post(`${backendUrl}/users/validateUser`, formData);
       
-      // ВЕЧЕ НЕ ПОЛЗВАМЕ validationRes.data.message директно за текст
       if (!validationRes.data.success) {
-        // Използваме универсалната грешка за невалидни данни
+        // универсалната грешка за невалидни данни
         showMessage(t('profile.errors.invalidField', "Невалидни данни."));
         setLoading(false);
         return;
       }
 
-      // 3. Пращане на код за верификация
+      // Пращане на код за верификация
       await Axios.post(`${backendUrl}/email/sendVerificationCode`, { email: formData.email });
       
       showMessage(t('signup.codeSentMessage', "Имейл с код за верификация е изпратен."), "success");
@@ -154,7 +152,7 @@ function Signup() {
       }
     } catch (error) {
       const backendError = error.response?.data?.error;
-      // Хващаме системния код ACCOUNT_NOT_APPROVED или статус 403
+      // системния код е ACCOUNT_NOT_APPROVED или статус 403
       if (error.response?.status === 403 || backendError === 'ACCOUNT_NOT_APPROVED') {
         setShowPendingModal(true);
       } else {
@@ -271,7 +269,7 @@ function Signup() {
           </div>
         )}
 
-        {/* НОВ МОДАЛ: Успешна регистрация и чакане на одобрение */}
+        {/* модал за спешна регистрация и чакане на одобрение */}
         {showPendingModal && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
                 <div className="bg-slate-800 border border-blue-500/30 rounded-3xl p-10 max-w-lg w-full text-center shadow-[0_0_50px_-12px_rgba(59,130,246,0.5)]">

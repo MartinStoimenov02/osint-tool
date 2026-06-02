@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { FaEye, FaEyeSlash, FaExclamationTriangle, FaTimes } from "react-icons/fa";
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const DeleteAccountModal = ({ isOpen, onClose, onSuccess, user }) => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [confirmEmail, setConfirmEmail] = useState("");
   const [password, setPassword] = useState(""); 
@@ -12,7 +12,6 @@ const DeleteAccountModal = ({ isOpen, onClose, onSuccess, user }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Корекция за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const showStatus = (text, type = "error") => {
@@ -32,7 +31,7 @@ const DeleteAccountModal = ({ isOpen, onClose, onSuccess, user }) => {
     setLoading(true);
     try {
       let res;
-      // 1. Проверка на самоличността
+      // Проверка на самоличността
       if (user.hasPassword) {
         res = await Axios.post(`${backendUrl}/users/getUser`, {
           email: user.email,
@@ -44,7 +43,7 @@ const DeleteAccountModal = ({ isOpen, onClose, onSuccess, user }) => {
         });
       }
 
-      // 2. Реално изтриване
+      // Реално изтриване
       if (res.data.success) {
         const deleteRes = await Axios.post(`${backendUrl}/users/deleteAccount`, { 
           userId: user.id 

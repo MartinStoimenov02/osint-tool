@@ -4,16 +4,16 @@ const searchByDomain = async (req, res) => {
     try {
         const { domain } = req.query;
         if (!domain) {
-            // Връщаме системен код вместо текст
+            // Връща се системен код вместо текст
             return res.status(400).json({ error: 'MISSING_DOMAIN' });
         }
 
         console.log(`OSI-HR: Searching corporate entity - ${domain}`);
         
-        // Взимаме данните от твоя сървис
+        // данните от услугата
         const data = await hunterService.searchByDomain(domain);
 
-        // Връщаме целия обект, за да може фронтендът да си визуализира 
+        // Връща се целия обект, за да може фронтендът да си визуализира 
         // градове, държави, социални мрежи и всички детайли на служителите
         const resultData = data.data ? data.data : data;
         return res.status(200).json(resultData);
@@ -28,7 +28,6 @@ const findPersonEmail = async (req, res) => {
     try {
         const { firstName, lastName, domain } = req.query;
         if (!firstName || !lastName || !domain) {
-            // ТУК БЕШЕ КИРИЛИЦАТА - Сменяме я със системен код
             return res.status(400).json({ error: 'MISSING_PERSON_PARAMS' });
         }
 

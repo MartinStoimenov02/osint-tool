@@ -17,7 +17,6 @@ const deleteUserAndRelatedData = async (userId) => {
     await session.abortTransaction();
     session.endSession();
     
-    // Тъй като това е util функция, а не middleware, логираме грешката тук
     console.error(`[DELETE USER ERROR] ID: ${userId} -`, err.message);
     return { success: false, error: err.message };
   }

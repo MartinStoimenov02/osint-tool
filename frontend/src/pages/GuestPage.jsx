@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 import slide1 from "../images/photo-1.jpeg";
 import slide2 from "../images/photo-2.jpeg";
@@ -8,9 +8,9 @@ import slide3 from "../images/photo-3.jpeg";
 const allImages = [slide1, slide2, slide3];
 
 export default function GuestPage() {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ
 
-  // Местим масива вътре, за да можем да ползваме преводача t()
+  // масива трябва да е вътре, за да се използва преводача t()
   const slideTexts = [
     {
       title: t('guestPage.slide1.title', "OSINT Анализ за Подбор на Персонал"),

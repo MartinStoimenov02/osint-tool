@@ -1,9 +1,8 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
-// import '../style/SortOrderModal.css' 
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const SortModal = ({ sortOrder, handleSortChange, setIsSortModalOpen }) => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   return (
     <div className="sort-modal-overlay" onClick={() => setIsSortModalOpen(false)}>

@@ -2,7 +2,7 @@ const SavedProfile = require('../models/savedProfile.model');
 
 const saveProfile = async (req, res) => {
     try {
-        // Взимаме ID-то на логнатия потребител от токена (през authMiddleware)
+        // Взима се ID-то на логнатия потребител от токена (през authMiddleware)
         const userId = req.user.id || req.user._id; 
         const profileData = req.body;
 
@@ -56,7 +56,7 @@ const getSavedProfiles = async (req, res) => {
     try {
         const userId = req.user.id || req.user._id;
         
-        // Намираме всички профили, запазени от този HR, и ги сортираме от най-новите към най-старите
+        // Намиране на всички профили, запазени от този HR, и сортиране от най-новите към най-старите
         const profiles = await SavedProfile.find({ savedBy: userId }).sort({ savedAt: -1 });
         
         res.status(200).json({ success: true, profiles });
@@ -70,9 +70,9 @@ const getSavedProfiles = async (req, res) => {
 const deleteSavedProfile = async (req, res) => {
     try {
         const userId = req.user.id || req.user._id;
-        const { target } = req.params; // Взимаме username-а от URL-а
+        const { target } = req.params; // username-а от URL-а
 
-        // Търсим и изтриваме (уверяваме се, че трием само профил, запазен от ТОЗИ потребител)
+        // проверка, че се трие само профил, запазен от този потребител
         const deletedProfile = await SavedProfile.findOneAndDelete({ target: target, savedBy: userId });
 
         if (!deletedProfile) {

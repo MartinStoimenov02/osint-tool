@@ -13,19 +13,18 @@ const platforms = [
     { id: 'reddit', name: 'Reddit', checkUrl: 'https://www.reddit.com/user/{username}/about.json', profileUrl: 'https://www.reddit.com/user/{username}', type: 'api' },
     { id: 'hackernews', name: 'HackerNews', checkUrl: 'https://hacker-news.firebaseio.com/v0/user/{username}.json', profileUrl: 'https://news.ycombinator.com/user?id={username}', type: 'api_hn' },
     { id: 'gitlab', name: 'GitLab', checkUrl: 'https://gitlab.com/api/v4/users?username={username}', profileUrl: 'https://gitlab.com/{username}', type: 'api_gitlab' },
-    // НОВО: Променяме LinkedIn и Medium да използват Dorking, за да избегнем Timeout!
+    // LinkedIn и Medium да използват Dorking, за да се избегне Timeout
     { id: 'linkedin', name: 'LinkedIn', profileUrl: 'https://www.google.com/search?q=site:linkedin.com/in/+"{username}"', type: 'dork' },
     { id: 'medium', name: 'Medium', profileUrl: 'https://www.google.com/search?q=site:medium.com+"@{username}"', type: 'dork' }
 ];
 
 const scanPlatform = async (username, platform) => {
-    // АКО ПЛАТФОРМАТА Е ОТ ТИП DORK, ПРОПУСКАМЕ AXIOS ЗАЯВКАТА И ВРЪЩАМЕ ЛИНКА ВЕДНАГА
+    // АКО ПЛАТФОРМАТА Е ОТ ТИП DORK, AXIOS ПРОПУСКА ЗАЯВКАТА И ВРЪЩА ЛИНКА ВЕДНАГА
     if (platform.type === 'dork') {
         const dorkUrl = platform.profileUrl.replace('{username}', username);
         return { platform: platform.name, url: dorkUrl, status: 'MANUAL_DORK' };
     }
 
-    // За останалите платформи продължаваме с нормалното сканиране
     const url = platform.checkUrl.replace('{username}', username);
     const profile = platform.profileUrl.replace('{username}', username);
     

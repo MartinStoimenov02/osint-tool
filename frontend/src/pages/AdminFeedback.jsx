@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaTrash, FaFilter, FaSort, FaTrashAlt } from 'react-icons/fa';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const feedbackTypeOptions = [
   'Всички',
@@ -14,7 +14,7 @@ const feedbackTypeOptions = [
 ];
 
 const AdminFeedback = () => {
-  const { t, i18n } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t, i18n } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [feedbackList, setFeedbackList] = useState([]);
   const [selectAll, setSelectAll] = useState(false); 
@@ -26,7 +26,6 @@ const AdminFeedback = () => {
   const [deleteTargetId, setDeleteTargetId] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  // КОРЕКЦИЯ ЗА VITE
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const fetchFeedback = async () => {
@@ -238,7 +237,6 @@ const AdminFeedback = () => {
             </table>
           </div>
         ) : (
-          /* Mobile View */
           <div className="grid grid-cols-1 gap-4">
             {filtered.map((fb) => {
               const id = fb._id || fb.id;

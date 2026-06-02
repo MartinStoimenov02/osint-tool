@@ -7,7 +7,7 @@ const ConfirmActionModal = ({ isOpen, onClose, onConfirm, actionType }) => {
 
   if (!isOpen) return null;
 
-  // Проверяваме дали действието е "Одобрение" (approve) или "Отхвърляне" (reject)
+  // Проверка дали действието е "Одобрение" (approve) или "Отхвърляне" (reject)
   const isApprove = actionType === 'approve';
 
   return (

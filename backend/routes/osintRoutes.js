@@ -3,7 +3,7 @@ const osintController = require('../controllers/osintController');
 const companyController = require('../controllers/companyController');
 const socialController = require('../controllers/socialController');
 
-// Импортираме защитата
+// Импорт на защитата
 const { authMiddleware } = require('../middleware/auth.middleware.js');
 
 const router = express.Router();

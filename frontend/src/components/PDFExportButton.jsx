@@ -1,13 +1,12 @@
 import React from 'react';
 import { FaFilePdf } from 'react-icons/fa';
 import { useReactToPrint } from 'react-to-print';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const PDFExportButton = ({ contentRef, fileName = "OSI-HR_Report", buttonText }) => {
-    const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ
+    const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ
     
     const handlePrint = useReactToPrint({
-        // Поддържа и новият, и старият синтаксис на библиотеката:
         contentRef: contentRef, 
         content: () => contentRef.current,
         documentTitle: fileName,

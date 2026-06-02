@@ -1,9 +1,8 @@
 const githubService = require('../utils/githubService');
 const aiService = require('../utils/aiService');
-// НОВО: Импортираме сървиса за кръстосана проверка на имейли
 const crossCheckService = require('../utils/crossCheckService');
 
-// Функция за Фаза 1: Търсене по име (Бърз вариант)
+// Търсене по име (Бърз вариант)
 const searchUsers = async (req, res) => {
     try {
         const { q } = req.query;
@@ -35,7 +34,7 @@ const searchUsers = async (req, res) => {
     }
 };
 
-// Функция за Фаза 2: Дълбочинен OSINT + AI Анализ
+// Дълбочинен OSINT + AI Анализ
 const analyzeUser = async (req, res) => {
     try {
         const { username, lang } = req.query;
@@ -56,7 +55,6 @@ const analyzeUser = async (req, res) => {
             return res.status(404).json({ error: 'Потребителят не беше намерен в GitHub.' });
         }
 
-        // ВМЕСТО SET, ИЗПОЛЗВАМЕ ОБЕКТ ЗА БРОЕНЕ НА ЧЕСТОТАТА
         let emailCounts = {}; 
         let repoData = [];
         let commitHours = new Array(24).fill(0);
@@ -75,7 +73,7 @@ const analyzeUser = async (req, res) => {
                 commits.forEach(item => {
                     const email = item.commit.author.email;
                     if (email && !email.includes('noreply.github.com')) {
-                        // Броим колко пъти се среща всеки имейл
+                        // колко пъти се среща всеки имейл
                         emailCounts[email] = (emailCounts[email] || 0) + 1;
                     }
 
@@ -92,7 +90,7 @@ const analyzeUser = async (req, res) => {
             } catch (err) {}
         }
 
-        // --- ИНТЕЛИГЕНТНО ФИЛТРИРАНЕ НА ИМЕЙЛИ (СКОРИНГ АЛГОРИТЪМ) ---
+        // ИНТЕЛИГЕНТНО ФИЛТРИРАНЕ НА ИМЕЙЛИ
         const usernameLower = username.toLowerCase();
         const nameParts = profile.name ? profile.name.toLowerCase().split(' ') : [];
 
@@ -108,13 +106,13 @@ const analyzeUser = async (req, res) => {
                 if (part.length > 2 && emailLower.includes(part)) score += 50;
             });
 
-            // Гранд Бонус: ако съвпада с публичния му имейл в профила
+            // Бонус: ако съвпада с публичния му имейл в профила
             if (profile.email && emailLower === profile.email.toLowerCase()) score += 500;
 
             return { email, score };
         });
 
-        // Сортираме по най-висок резултат и взимаме САМО ТОП 5
+        // Сортиране по най-висок резултат: ТОП 5
         scoredEmails.sort((a, b) => b.score - a.score);
         const extractedEmailsArr = scoredEmails.slice(0, 5).map(e => e.email);
 
@@ -138,7 +136,7 @@ const analyzeUser = async (req, res) => {
 
         console.log(`Cross-checking ${extractedEmailsArr.length} extracted emails for data breaches...`);
         
-        // Вече проверяваме максимум 5 имейла!
+        // проверяват се максимум 5 имейла
         const breachChecks = await Promise.all(
             extractedEmailsArr.map(email => crossCheckService.checkEmailBreaches(email))
         );
@@ -151,7 +149,7 @@ const analyzeUser = async (req, res) => {
                 location: profile.location,
                 bio: profile.bio
             },
-            extracted_emails: extractedEmailsArr, // Подаваме само филтрираните 5 на AI
+            extracted_emails: extractedEmailsArr, // само филтрираните 5 на AI
             repositories: repoData,
             osint_extras: {
                 activity_by_hour: commitHours,

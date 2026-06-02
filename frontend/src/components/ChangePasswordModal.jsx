@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { FaEye, FaEyeSlash, FaTimes, FaLock } from "react-icons/fa";
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const ChangePasswordModal = ({ isOpen, onClose, email, setChangedPasswordSuccess }) => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -16,7 +16,6 @@ const ChangePasswordModal = ({ isOpen, onClose, email, setChangedPasswordSuccess
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // Корекция за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const handleClose = () => {
@@ -54,7 +53,7 @@ const ChangePasswordModal = ({ isOpen, onClose, email, setChangedPasswordSuccess
     setLoading(true);
     
     try {
-      // 1. Проверка на текущата парола (през getUser)
+      // Проверка на текущата парола (през getUser)
       // Ако паролата е грешна, Axios ще хвърли грешка (401 Unauthorized)
       const res = await Axios.post(`${backendUrl}/users/getUser`, {
         email: email,
@@ -62,7 +61,7 @@ const ChangePasswordModal = ({ isOpen, onClose, email, setChangedPasswordSuccess
       });
 
       if (res.data.success) {
-        // 2. Реална смяна на паролата
+        // Реална смяна на паролата
         const resetRes = await Axios.post(`${backendUrl}/users/resetPassword`, {
           email,
           password: newPassword,
@@ -76,7 +75,7 @@ const ChangePasswordModal = ({ isOpen, onClose, email, setChangedPasswordSuccess
     } catch (error) {
       console.error("Password change error:", error);
       
-      // Взимаме системния код от бекенда
+      // Взима се системния код от бекенда
       const backendError = error.response?.data?.error;
       
       if (backendError === 'INVALID_CREDENTIALS') {
@@ -84,7 +83,7 @@ const ChangePasswordModal = ({ isOpen, onClose, email, setChangedPasswordSuccess
       } else if (backendError === 'USER_NOT_FOUND') {
           showStatus(t('auth.errors.userNotFound', "Потребителят не е намерен."));
       } else {
-          // Универсалната ни грешка от common обекта
+          // Универсалната грешка от common обекта
           showStatus(t('common.error', "Възникна неочаквана грешка!"));
       }
     } finally {

@@ -4,10 +4,10 @@ import {
   FaFingerprint, FaSearch, FaExclamationTriangle, 
   FaCheckCircle, FaTimesCircle, FaLink, FaUserSecret, FaGoogle
 } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const SocialRecon = () => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ const SocialRecon = () => {
     } catch (err) {
       console.error(err);
       
-      // Извличаме системния код от бекенда
+      // системния код от бекенда
       const backendError = err.response?.data?.error;
 
       if (backendError === 'MISSING_USERNAME') {
@@ -45,7 +45,7 @@ const SocialRecon = () => {
       } else if (backendError === 'SOCIAL_SCAN_ERROR') {
           setError(t('socialRecon.errors.scanError', "Възникна грешка при сканирането. Сървърът може да е претоварен."));
       } else {
-          // Универсална грешка от 'common' обекта, който добавихме по-рано
+          // Универсална грешка от 'common' обекта
           setError(t('common.error', "Възникна неочаквана грешка!"));
       }
     } finally {
@@ -76,7 +76,7 @@ const SocialRecon = () => {
                 type="text" 
                 placeholder={t('socialRecon.placeholder', 'потребителско_име (напр. ggerganov)')} 
                 value={username}
-                onChange={(e) => setUsername(e.target.value.replace(/\s+/g, ''))} // Забраняваме интервали
+                onChange={(e) => setUsername(e.target.value.replace(/\s+/g, ''))} // Забрана за интервали
                 className="w-full bg-transparent text-white p-3 outline-none text-lg placeholder-slate-500 font-mono"
               />
               <button 

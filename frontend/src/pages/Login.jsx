@@ -6,11 +6,11 @@ import { jwtDecode } from "jwt-decode";
 import { FaEye, FaEyeSlash, FaShieldAlt } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../redux/userSlice'; 
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 import backgroundImage from "../images/photo-2.jpeg";
 
 function Login() {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState({ text: "", type: "" });
@@ -21,7 +21,7 @@ function Login() {
   const [showModal, setShowModal] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
 
-  // Нови стейтове за 2FA
+  // стейтове за 2FA
   const [show2FAModal, setShow2FAModal] = useState(false);
   const [twoFactorCode, setTwoFactorCode] = useState("");
   const [pendingUserId, setPendingUserId] = useState(null);
@@ -134,7 +134,6 @@ const handleVerify2FA = async () => {
         setTwoFactorCode("");
         finalizeLogin(res.data);
       } else {
-        // ТУК Е ПРОМЯНАТА
         setTwoFactorError(t('login.invalidCode', "Невалиден код."));
       }
     } catch (error) {

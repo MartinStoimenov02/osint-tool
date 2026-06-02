@@ -74,7 +74,7 @@ function App() {
         
         <main className="flex-grow">
           <Routes>
-            {/* Публични маршрути - тук ползваме интелигентното пренасочване */}
+            {/* Публични маршрути - интелигентно пренасочване */}
             <Route path="/" element={isAuthenticated ? <Navigate to={getHomeRoute()} replace /> : <GuestPage />} />
             <Route path="/login" element={isAuthenticated ? <Navigate to={getHomeRoute()} replace /> : <Login />} />
             <Route path="/signup" element={isAuthenticated ? <Navigate to={getHomeRoute()} replace /> : <SignUp />} />

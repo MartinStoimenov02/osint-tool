@@ -9,10 +9,10 @@ import {
 
 import PDFExportButton from '../components/PDFExportButton';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const SavedProfiles = () => {
-  const { t, i18n } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t, i18n } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const contentRef = useRef(null);
   const [profiles, setProfiles] = useState([]);
@@ -93,7 +93,7 @@ const SavedProfiles = () => {
     <div className="min-h-screen bg-slate-900 text-slate-200 p-4 md:p-8 pt-24">
       <div className="max-w-6xl mx-auto">
         
-        {/* АКО НЯМА ИЗБРАН ПРОФИЛ - ПОКАЗВАМЕ СПИСЪКА */}
+        {/* АКО НЯМА ИЗБРАН ПРОФИЛ СЕ ПОКАЗВА СПИСЪКА */}
         {!selectedProfile ? (
           <>
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
@@ -224,7 +224,7 @@ const SavedProfiles = () => {
             )}
           </>
         ) : (
-          /* ДЕТАЙЛЕН ИЗГЛЕД - ТОЧНО КОПИЕ ОТ GITHUBPROFILER.JSX (Преизползваме преводите от там) */
+          /* ДЕТАЙЛЕН ИЗГЛЕД - ТОЧНО КОПИЕ ОТ GITHUBPROFILER.JSX */
           <div className="space-y-6">
             
             <div className="flex flex-wrap items-center gap-4 justify-between">
@@ -252,7 +252,7 @@ const SavedProfiles = () => {
 
             <div ref={contentRef} id="saved-report-content" className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 -m-4">
               
-              {/* ТОЗИ ХЕДЪР ЩЕ СЕ ВИЖДА САМО В PDF-А */}
+              {/* ХЕДЪР, КОЙТО СЕ ВИЖДА САМО В PDF-А */}
               <div className="hidden print:flex lg:col-span-3 justify-between items-center border-b border-slate-700 pb-4 mb-2 w-full">
                   <div className="text-2xl font-black text-blue-500 tracking-tighter">OSI-<span className="text-white">HR</span></div>
                   <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">ARCHIVED INTELLIGENCE REPORT</div>
@@ -563,7 +563,7 @@ const SavedProfiles = () => {
 
               </div>
 
-              {/* НОВО: ТОЗИ ФУТЪР СЕ ПОКАЗВА САМО В PDF-А */}
+              {/* ФУТЪР, КОЙТО СЕ ПОКАЗВА САМО В PDF-А */}
               <div className="hidden print:flex flex-col items-end mt-8 pt-4 border-t border-slate-700 w-full text-sm font-bold text-slate-400 lg:col-span-3">
                   <p>{t('githubProfiler.profile.pdfGeneratedBy', 'Докладът е генериран автоматично от OSI-HR Intelligence Engine')}</p>
                   <p className="text-indigo-400">{t('githubProfiler.profile.expert', 'Експерт:')} {currentUser?.name || t('githubProfiler.profile.admin', 'Администратор')} | {t('githubProfiler.profile.date', 'Дата:')} {new Date().toLocaleDateString(i18n.language === 'bg' ? 'bg-BG' : 'en-US')}</p>
@@ -575,7 +575,7 @@ const SavedProfiles = () => {
 
       </div>
 
-      {/* НОВО: СКРИТИЯТ КОМПОНЕНТ ЗА ПРИНТИРАНЕ */}
+      {/* СКРИТИЯТ КОМПОНЕНТ ЗА ПРИНТИРАНЕ */}
       {selectedProfile && (
         <div style={{ display: 'none' }}>
            <PrintableReport ref={printRef} profile={selectedProfile} currentUser={currentUser} />

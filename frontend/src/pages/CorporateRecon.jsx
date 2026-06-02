@@ -5,10 +5,10 @@ import {
   FaCity, FaIndustry, FaTwitter, FaLinkedin, FaSitemap,
   FaCrosshairs, FaCheckCircle
 } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const CorporateRecon = () => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [domain, setDomain] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ const CorporateRecon = () => {
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
-  // 1. ОСНОВНО ТЪРСЕНЕ НА ДОМЕЙН
+  // ОСНОВНО ТЪРСЕНЕ НА ДОМЕЙН
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!domain.trim()) {
@@ -59,7 +59,7 @@ const CorporateRecon = () => {
     }
   };
 
-  // 2. БРОНИРАН СНАЙПЕРИСТ
+  // СНАЙПЕРИСТ
   const handleFindPerson = async (e) => {
     e.preventDefault();
     if (!firstName.trim() || !lastName.trim()) {
@@ -74,7 +74,7 @@ const CorporateRecon = () => {
     const fName = firstName.trim().toLowerCase();
     const lName = lastName.trim().toLowerCase();
 
-    // СТЪПКА 1: Проверка в локалния кеш
+    // Проверка в локалния кеш
     const localMatch = companyData?.emails?.find(emp => 
         emp.first_name?.toLowerCase() === fName && emp.last_name?.toLowerCase() === lName
     );
@@ -90,7 +90,7 @@ const CorporateRecon = () => {
         return;
     }
 
-    // СТЪПКА 2: Опит през Hunter API
+    // Опит през Hunter API
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(`${backendUrl}/osint/findPerson`, {
@@ -98,15 +98,15 @@ const CorporateRecon = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      // Застраховаме се срещу различно пакетиране на данните от бекенда
+      // Застраховка срещу различно пакетиране на данните от бекенда
       const apiData = res.data?.data || res.data;
 
-      // Ако API-то върне успешен статус, но е празно -> ФОРСИРАМЕ ГРЕШКА
+      // Ако API-то върне успешен статус, но е празно -> ФОРСИРАНЕ НА ГРЕШКА
       if (!apiData || !apiData.email) {
           throw new Error("Empty response from Hunter");
       }
       
-      // Ако всичко е точно, записваме реалния резултат
+      // Ако всичко е точно, записване на реалния резултат
       setFinderResult({
           email: apiData.email,
           score: apiData.score || 99,
@@ -124,7 +124,7 @@ const CorporateRecon = () => {
           return;
       }
 
-      // СТЪПКА 3: FALLBACK КЪМ ШАБЛОН (Умният предсказател)
+      // FALLBACK КЪМ ШАБЛОН (Умният предсказател)
       if (companyData?.pattern) {
           let patternStr = companyData.pattern;
           let generatedEmail = patternStr

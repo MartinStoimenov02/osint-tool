@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
-import { useTranslation } from "react-i18next"; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from "react-i18next"; // ИМПОРТ ЗА ПРЕВОДИТЕ
 import backgroundImage from "../images/photo-1.jpeg";
 
 function ForgotPassword() {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,11 +21,10 @@ function ForgotPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
-  // Корекция за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   useEffect(() => {
-    // Ако потребителят се опита да достъпи страницата директно без верификация, го връщаме
+    // Ако потребителят се опита да достъпи страницата директно без верификация, бива върнат
     if (!isAllowed || !email) {
       navigate("/login");
     }
@@ -81,7 +80,7 @@ function ForgotPassword() {
     }
   };
 
-  // Ако достъпът не е разрешен, не рендираме нищо, докато трае useEffect проверката
+  // Ако достъпът не е разрешен, не се рендира нищо, докато трае useEffect проверката
   if (!isAllowed || !email) return null;
 
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const Footer = () => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ
 
   return (
     <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 text-center p-4 mt-auto">

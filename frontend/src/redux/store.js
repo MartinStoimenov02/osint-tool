@@ -11,7 +11,6 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-// РЪЧЕН ФИКС ЗА VITE: Дефинираме storage обекта сами, за да не гърми getItem/setItem
 const manualStorage = {
   getItem: (key) => {
     return Promise.resolve(localStorage.getItem(key));
@@ -29,7 +28,7 @@ const manualStorage = {
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage: manualStorage, // Вече не ползваме автоматичния импорт, който се чупи
+  storage: manualStorage, 
 };
 
 const rootReducer = combineReducers({

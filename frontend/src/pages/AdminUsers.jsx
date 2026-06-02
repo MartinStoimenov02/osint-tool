@@ -3,7 +3,6 @@ import axios from 'axios';
 import { FaTrash, FaEdit, FaCheck, FaTimes, FaEnvelope, FaUserShield } from 'react-icons/fa';
 import DeleteAccountModal from "../components/DeleteAccountModal";
 import SendMessageModal from '../components/SendMessageModal';
-// Вмъкваме новия модал
 import ConfirmActionModal from "../components/ConfirmActionModal";
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -24,10 +23,8 @@ const AdminUsers = () => {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Стейт за новия модал
   const [actionModal, setActionModal] = useState({ isOpen: false, type: '', userId: null });
 
-  // Корекция за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
   const currentUser = useSelector((state) => state.user.user); 
 
@@ -39,7 +36,7 @@ const AdminUsers = () => {
       });
       setUsers(res.data.users || res.data);
     } catch (err) {
-      // НОВО: Проверка за системен код при зареждане
+      // Проверка за системен код при зареждане
       const backendError = err.response?.data?.error;
       if (backendError === 'ERROR_FETCHING_USERS') {
           console.error(t('adminUsers.errors.fetchFailed', 'Грешка при зареждане на списъка.'));
@@ -72,7 +69,7 @@ const AdminUsers = () => {
       });
       setEditUserId(null);
       fetchUsers();
-      // Опционално добавяме съобщение за успех
+      // съобщение за успех
       setMessage(t('adminUsers.userUpdated', 'Потребителят е обновен успешно!'));
       setSuccess(true);
       setTimeout(() => setMessage(""), 3000);
@@ -155,7 +152,6 @@ const AdminUsers = () => {
     }
   };  
 
-  // --- ЛОГИКА ЗА НОВИЯ МОДАЛ ---
   const triggerApprove = (id) => {
     setActionModal({ isOpen: true, type: 'approve', userId: id });
   };
@@ -201,8 +197,6 @@ const AdminUsers = () => {
     }
   };
 
-  // Функциите handleApprove и handleReject са премахнати, защото вече ползваме executeAction
-
   const filteredAndSortedUsers = users
   .filter(user => {
     if (filterOption === 'admins' && !user.isAdmin) return false;
@@ -220,13 +214,13 @@ const AdminUsers = () => {
     );
   })
   .sort((a, b) => {
-    // 1. Неодобрените винаги най-отгоре
+    // Неодобрените винаги най-отгоре
     const aPending = !a.isAccepted && !a.isAdmin;
     const bPending = !b.isAccepted && !b.isAdmin;
     if (aPending && !bPending) return -1;
     if (!aPending && bPending) return 1;
 
-    // 2. След това сортиране по избор
+    // сортиране по избор
     const aValue = a[sortOption];
     const bValue = b[sortOption];
     if (typeof aValue === 'string') return aValue.localeCompare(bValue);
@@ -370,7 +364,6 @@ const AdminUsers = () => {
           </table>
         </div>
 
-        {/* Mobile View - Карти */}
         <div className="md:hidden space-y-4">
           {filteredAndSortedUsers.map(user => {
             const userId = user._id || user.id;

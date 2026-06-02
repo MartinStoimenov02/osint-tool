@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const LogSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId, // Коригирано за по-добра практика
+        type: mongoose.Schema.Types.ObjectId, 
         ref: "user",
     },
     errorStatus: {

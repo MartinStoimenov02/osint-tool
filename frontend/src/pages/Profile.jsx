@@ -32,12 +32,11 @@ const Profile = () => {
   const [is2FALoading, setIs2FALoading] = useState(false);
   const [showDisable2FAModal, setShowDisable2FAModal] = useState(false);
   
-  // Стейт за грешки СПЕЦИАЛНО за 2FA модала
+  // Стейт за грешки за 2FA модала
   const [setup2FAError, setSetup2FAError] = useState("");
 
   const [message, setMessage] = useState({ text: "", type: "" });
   
-  // Корекция за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   useEffect(() => {
@@ -100,7 +99,7 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // Проверяваме за системния код за успех
+      // Проверка за системния код за успех
       if (res.data.success) {
         showStatus(t('profile.success.updated', "Обновено успешно!"), "success");
         dispatch(loginSuccess({ ...user, [field]: editedUser[field] }));
@@ -126,7 +125,7 @@ const Profile = () => {
     navigate("/login");
   };
 
-  // --- 2FA ФУНКЦИОНАЛНОСТИ ---
+  // 2FA ФУНКЦИОНАЛНОСТИ
 
   const handleGenerate2FA = async () => {
     setIs2FALoading(true);

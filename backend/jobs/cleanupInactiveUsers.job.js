@@ -3,7 +3,7 @@ const dayjs = require('dayjs');
 const UserModel = require('../models/user.model.js');
 const deleteUserAndRelatedData = require('../utils/deleteUserAndRelatedData.js');
 const { sendEmail } = require('../utils/email.js');
-const logError = require('../utils/logger.js'); // Добавен липсващ импорт
+const logError = require('../utils/logger.js'); 
 
 cron.schedule('0 2 * * *', async () => {
 // cron.schedule('* * * * *', async () => { // За локални тестове

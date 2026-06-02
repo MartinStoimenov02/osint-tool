@@ -7,7 +7,6 @@ import { logout, loginSuccess } from '../redux/userSlice';
 import Axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-// Твоите компоненти
 import Notifications from '../pages/Notifications';
 import Help from '../components/Help';
 
@@ -68,7 +67,6 @@ const Header = () => {
           if (backendError === 'ERROR_UPDATING_FIELD') {
             console.error(t('header.errors.updateFirstLoginFailed', 'Грешка при актуализиране на firstLogin статуса.'));
           } else if (backendError === 'USER_NOT_FOUND') {
-            // ДОБАВИ ТОЗИ ELSE IF:
             console.error(t('auth.errors.userNotFound', 'Потребителят не е намерен.'));
           } else {
             console.error("Грешка при обновяване на firstLogin:", error);
@@ -98,7 +96,7 @@ const Header = () => {
           setHasUnreadNotifications(unread);
         }
       } catch (err) {
-        const backendError = err.response?.data?.error; // Увери се, че е така
+        const backendError = err.response?.data?.error; 
         if (backendError === 'ERROR_FETCHING_NOTIFICATIONS') {
           console.error(t('notifications.errors.fetchFailed', 'Грешка при зареждане на нотификациите'));
         } else {
@@ -116,7 +114,6 @@ const Header = () => {
     navigate('/login');
   };
 
-  // Преди return на Header
   const languageSelector = (
     <div className="relative flex items-center">
       <button onClick={() => setLangOpen(!langOpen)} className="text-slate-300 hover:text-white transition-colors">
@@ -147,7 +144,6 @@ const Header = () => {
       {/* ЛЯВА ЧАСТ: Лого */}
       <div 
         className="text-2xl font-black text-blue-500 cursor-pointer flex items-center gap-1 tracking-tighter" 
-        // Променяме пътя от "/profile" на "/tools/github"
         onClick={() => navigate(isAuthenticated ? "/tools/github" : "/")}
       >
         OSI-<i className="text-white">HR</i>
@@ -168,7 +164,7 @@ const Header = () => {
         /* Главен контейнер за дясната част */
         <div className="flex items-center">
           
-          {/* ГРУПА 1: Иконки (Тук слагаме границата вдясно: pr-5 border-r border-slate-700) */}
+          {/* Иконки */}
           <div className="flex items-center gap-4 pr-5 border-r border-slate-700">
             
             <button onClick={() => setHelpOpen(true)} className="text-slate-300 hover:text-white transition-colors" title={t('nav.help', 'Помощ')}>
@@ -204,7 +200,7 @@ const Header = () => {
             
           </div>
 
-          {/* ГРУПА 2: Меню и Изход (Добавяме ляв padding: pl-5) */}
+          {/* Меню и Изход */}
           <div className="flex items-center gap-4 pl-5">
             <div className="relative">
               <button onClick={() => setMenuOpen(!menuOpen)} className="text-slate-300 hover:text-white transition-colors">
@@ -274,7 +270,7 @@ const Header = () => {
         </div>
       )}
 
-      {/* МОДАЛ ЗА НОТИФИКАЦИИ (Само за мобилни) */}
+      {/* МОДАЛ ЗА НОТИФИКАЦИИ */}
       {isMobile && notificationsOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setNotificationsOpen(false)}>
           <div className="bg-slate-800 p-0 rounded-2xl max-w-md w-full max-h-[80vh] flex flex-col overflow-hidden shadow-2xl border border-slate-700" onClick={e => e.stopPropagation()}>

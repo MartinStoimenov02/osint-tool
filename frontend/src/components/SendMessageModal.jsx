@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaPaperPlane, FaTimes } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ
+import { useTranslation } from 'react-i18next'; // ИМПОРТ ЗА ПРЕВОДИТЕ
 
 const SendMessageModal = ({ currentUser, selectedUserIds, onClose, onSuccess }) => {
-  const { t } = useTranslation(); // <-- ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
+  const { t } = useTranslation(); // ИНИЦИАЛИЗАЦИЯ НА ПРЕВОДАЧА
 
   const [notificationMessage, setNotificationMessage] = useState('');
   const [sendEmail, setSendEmail] = useState(false);
@@ -12,7 +12,6 @@ const SendMessageModal = ({ currentUser, selectedUserIds, onClose, onSuccess }) 
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Поправка за Vite
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const handleSend = async () => {
@@ -25,7 +24,7 @@ const SendMessageModal = ({ currentUser, selectedUserIds, onClose, onSuccess }) 
 
     setLoading(true);
     try {
-      // 1. Създаване на глобалната нотификация
+      // Създаване на глобалната нотификация
       const { data: notifData } = await axios.post(`${backendUrl}/notifications/addNotification`, {
         message: notificationMessage,
         adminId: currentUser.id,
@@ -37,7 +36,7 @@ const SendMessageModal = ({ currentUser, selectedUserIds, onClose, onSuccess }) 
 
       const notificationId = notifData.data._id; 
       
-      // 2. Свързване с всеки избран потребител
+      // Свързване с всеки избран потребител
       for (const userId of selectedUserIds) {
         await axios.post(`${backendUrl}/notifications/addUserNotification`, {
           adminId: currentUser.id,
@@ -45,7 +44,7 @@ const SendMessageModal = ({ currentUser, selectedUserIds, onClose, onSuccess }) 
           notificationId: notificationId,
         });
 
-        // 3. (Опционално) Изпращане по имейл
+        // Изпращане по имейл
         if (sendEmail) {
           await axios.post(`${backendUrl}/email/sendNotificationEmail`, {
             adminId: currentUser.id,
@@ -60,7 +59,6 @@ const SendMessageModal = ({ currentUser, selectedUserIds, onClose, onSuccess }) 
     } catch (err) {
       console.error('Error sending notifications:', err);
       
-      // Взимаме системния код от бекенда
       const backendError = err.response?.data?.error;
 
       if (backendError === 'ACCESS_DENIED') {

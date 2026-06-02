@@ -2,7 +2,6 @@ const nodemailer = require("nodemailer");
 const UserModel = require('../models/user.model.js');
 const logError = require('../utils/logger.js');
 
-// Вземаме данните от env
 const { SENDER_EMAIL, SENDER_PASSWORD } = process.env;
 
 const transporter = nodemailer.createTransport({
@@ -81,7 +80,7 @@ const sendNotificationEmail = async (req, res) => {
       const mailOptions = {
         from: SENDER_EMAIL,
         to: user.email,
-        subject: "New notification for " + user.name, // Тук също можеш да имплементираш логика за език в бъдеще
+        subject: "New notification for " + user.name, 
         html: notificationMessage + `<br><br><hr><br>
             <p style="color: #888; font-weight: bold; text-transform: uppercase; margin: 0;">OSI-HR</p>`,
       };
