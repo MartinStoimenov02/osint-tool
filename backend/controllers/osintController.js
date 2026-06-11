@@ -13,6 +13,7 @@ const searchUsers = async (req, res) => {
 
         const data = await githubService.searchUsersByName(q);
 
+        // систематизира само необходимата информация
         const extractedItems = data.items.map(user => ({
             login: user.login,
             id: user.id,
@@ -45,6 +46,7 @@ const analyzeUser = async (req, res) => {
 
         console.log(`Starting deep analysis for: ${username}...`);
 
+        // прави паралелни процеси за извличане на детайлите, репозиторитата и гистовете към гитхъб, за да спести време
         const [profile, repos, gists] = await Promise.all([
             githubService.getUserDetails(username),
             githubService.getUserRepos(username),
@@ -60,6 +62,7 @@ const analyzeUser = async (req, res) => {
         let commitHours = new Array(24).fill(0);
         let collaboratorsMap = {}; 
 
+        // взима само необходимата информация от репозиторитата
         for (const repo of repos) {
             repoData.push({
                 name: repo.name,
@@ -68,8 +71,10 @@ const analyzeUser = async (req, res) => {
             });
 
             try {
+                // взима за всяко репозитори къмитите
                 const commits = await githubService.getRepoCommits(username, repo.name);
                 
+                // взима на всеки къмит имейла
                 commits.forEach(item => {
                     const email = item.commit.author.email;
                     if (email && !email.includes('noreply.github.com')) {
@@ -77,11 +82,13 @@ const analyzeUser = async (req, res) => {
                         emailCounts[email] = (emailCounts[email] || 0) + 1;
                     }
 
+                    // брои в колко часът колко къмити има
                     if (item.commit.author.date && email === profile.email || item.author?.login === username) {
                         const date = new Date(item.commit.author.date);
                         commitHours[date.getHours()]++;
                     }
 
+                    // брои хората, с които е работил, за да покаже най-срещаните
                     if (item.author && item.author.login && item.author.login !== username) {
                         const colabLogin = item.author.login;
                         collaboratorsMap[colabLogin] = (collaboratorsMap[colabLogin] || 0) + 1;
@@ -112,15 +119,17 @@ const analyzeUser = async (req, res) => {
             return { email, score };
         });
 
-        // Сортиране по най-висок резултат: ТОП 5
+        // Сортиране на имейлите по най-висок резултат: ТОП 5
         scoredEmails.sort((a, b) => b.score - a.score);
         const extractedEmailsArr = scoredEmails.slice(0, 5).map(e => e.email);
 
+        // Сортиране на колабораторите по най-висок резултат: ТОП 5
         const topCollaborators = Object.entries(collaboratorsMap)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
             .map(c => ({ username: c[0], commits_together: c[1] }));
 
+        // анализира гистовете и проверява дали думи от даден черен списък съществуват в тях
         const suspiciousKeywords = ['.env', 'config', 'secret', 'pass', 'key', 'token', 'credentials', 'cert', 'pem'];
         const analyzedGists = gists.map(g => {
             const fileNames = Object.keys(g.files);
@@ -136,11 +145,12 @@ const analyzeUser = async (req, res) => {
 
         console.log(`Cross-checking ${extractedEmailsArr.length} extracted emails for data breaches...`);
         
-        // проверяват се максимум 5 имейла
+        // НЕ РАБОТИ!!! НЯМА БЕЗПЛАТНО АПИ; проверяват се ТОП 5-те имейла
         const breachChecks = await Promise.all(
             extractedEmailsArr.map(email => crossCheckService.checkEmailBreaches(email))
         );
 
+        // готовите данни за показване, без включен ИИ анализа
         const rawReport = {
             target: username,
             profile: {
@@ -149,7 +159,7 @@ const analyzeUser = async (req, res) => {
                 location: profile.location,
                 bio: profile.bio
             },
-            extracted_emails: extractedEmailsArr, // само филтрираните 5 на AI
+            extracted_emails: extractedEmailsArr, // само филтрираните 5 се дават на AI
             repositories: repoData,
             osint_extras: {
                 activity_by_hour: commitHours,
@@ -163,6 +173,7 @@ const analyzeUser = async (req, res) => {
         
         let aiAnalysis = null;
         try {
+            // вика се услугата, която се свързва с ИИ
             aiAnalysis = await aiService.generateOsintProfile(rawReport, lang);
         } catch (aiError) {
             console.error("Gemini API Error:", aiError.message);

@@ -14,6 +14,7 @@ exports.createFeedback = async (req, res, next) => {
 
         await newFeedback.save();
 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(201).json({
             success: true,
             message: 'FEEDBACK_CREATED',
@@ -21,6 +22,7 @@ exports.createFeedback = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'feedback.controller', functionName: 'createFeedback', user: req.body.userId });
         console.error("Error creating feedback:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({
             success: false,
             error: 'ERROR_CREATING_FEEDBACK',
@@ -31,13 +33,16 @@ exports.createFeedback = async (req, res, next) => {
 exports.getAllFeedback = async (req, res, next) => {
     try {
       const feedbackList = await FeedbackModel.find()
+        // заменя ID-то от колекция feedback на потребителя с истинския му имейл от колекция user
         .populate('user', 'email') 
+        // подрежда ги във възходящ ред по датата им на създаване
         .sort({ createdAt: 1 }); 
   
       res.status(200).json({ success: true, feedback: feedbackList });
     } catch (err) {
       console.error(err);
       logError(err, req, { className: 'feedback.controller', functionName: 'getAllFeedback' });
+      // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
       res.status(500).json({ success: false, error: 'ERROR_FETCHING_FEEDBACK' });
     }
 };
@@ -45,10 +50,12 @@ exports.getAllFeedback = async (req, res, next) => {
 exports.deleteFeedbackById = async (req, res, next) => {
     try {
       await FeedbackModel.findByIdAndDelete(req.params.id);
+      // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
       res.status(200).json({ success: true, message: 'FEEDBACK_DELETED' });
     } catch (err) {
       console.error(err);
       logError(err, req, { className: 'feedback.controller', functionName: 'deleteFeedbackById' });
+      // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
       res.status(500).json({ success: false, error: 'ERROR_DELETING_FEEDBACK' });
     }
 };
@@ -57,10 +64,12 @@ exports.deleteMultipleFeedback = async (req, res, next) => {
     const { ids } = req.body;
     try {
       await FeedbackModel.deleteMany({ _id: { $in: ids } });
+      // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
       res.status(200).json({ success: true, message: 'MULTIPLE_FEEDBACK_DELETED' });
     } catch (err) {
       console.error(err);
       logError(err, req, { className: 'feedback.controller', functionName: 'deleteMultipleFeedback' });
+      // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
       res.status(500).json({ success: false, error: 'ERROR_DELETING_MULTIPLE_FEEDBACK' });
     }
 };

@@ -46,6 +46,7 @@ const Header = () => {
     if (isAuthenticated && user?.firstLogin) {
       const disableFirstLogin = async () => {
         try {
+          // токена се съхранява в локалното хранилище на браузъра
           const token = localStorage.getItem("token");
           
           await Axios.put(`${backendUrl}/users/updateField`, {

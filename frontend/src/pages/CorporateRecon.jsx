@@ -124,7 +124,7 @@ const CorporateRecon = () => {
           return;
       }
 
-      // FALLBACK КЪМ ШАБЛОН (Умният предсказател)
+      // FALLBACK КЪМ ШАБЛОН 
       if (companyData?.pattern) {
           let patternStr = companyData.pattern;
           let generatedEmail = patternStr

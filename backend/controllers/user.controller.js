@@ -16,6 +16,7 @@ const hashPassword = (password) => {
 
 // Функция за генериране на JWT токен
 const generateToken = (user) => {
+    // токена се подписва с времето (дата и час) на сървъра и изтича след 24 часа
     return jwt.sign(
         { id: user._id, isAdmin: user.isAdmin },
         process.env.JWT_SECRET,
@@ -36,6 +37,7 @@ const checkUserExists = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'checkUserExists', user: req.body.email });
         console.error("checkUserExists: ", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         return res.status(500).json({ success: false, error: "ERROR_CHECKING_USER" });
     }
 };
@@ -51,6 +53,7 @@ const getUser = async (req, res, next) => {
         });
 
         if (!user) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(404).json({
                 success: false,
                 error: 'INVALID_CREDENTIALS'
@@ -59,6 +62,7 @@ const getUser = async (req, res, next) => {
 
         // --- ПРОВЕРКА ЗА ОДОБРЕНИЕ ---
         if (!user.isAccepted && !user.isAdmin) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(403).json({ 
                 success: false, 
                 error: 'ACCOUNT_NOT_APPROVED' 
@@ -67,6 +71,7 @@ const getUser = async (req, res, next) => {
 
         // --- 2FA ПРОВЕРКА ---
         if (user.isTwoFactorEnabled) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(200).json({
                 success: true,
                 requires2FA: true,
@@ -78,6 +83,7 @@ const getUser = async (req, res, next) => {
         // Генериране на JWT токен при успешен вход
         const token = generateToken(user);
 
+        // записва се новата дата на последно влизане
         user.lastLogin = new Date();
         await user.save();
         
@@ -103,10 +109,12 @@ const getUser = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'getUser', user: req.body.email });
         console.error("error getting user: ", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "SERVER_ERROR_LOGIN" });
     }
 };
 
+// прави се проверка дали записът ще мине през проверките на базата данни и след това транзакцията се ревъртва
 const validateUser = async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction(); 
@@ -124,6 +132,7 @@ const validateUser = async (req, res, next) => {
 
         await newUser.save({ session });
         await session.abortTransaction(); 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(200).json({ success: true, message: "DATA_VALID" });
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'validateUser', user: req.body?.email });
@@ -134,6 +143,7 @@ const validateUser = async (req, res, next) => {
         const errorCode = field === 'email' ? 'EMAIL_ALREADY_EXISTS' : 'PHONE_ALREADY_EXISTS';
         return res.status(409).json({ success: false, error: errorCode });
     }
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "INVALID_DATA" });
     } finally {
         session.endSession();
@@ -164,6 +174,7 @@ const createUser = async (req, res, next) => {
             <p>An administrator will review your profile within the next 24 hours. You will receive an email as soon as your account is approved.</p>`
         );
 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(201).json({
             success: true,
             message: 'REGISTRATION_SUCCESS_PENDING'
@@ -176,6 +187,7 @@ const createUser = async (req, res, next) => {
             const errorCode = field === 'email' ? 'EMAIL_ALREADY_EXISTS' : 'PHONE_ALREADY_EXISTS';
             return res.status(409).json({ success: false, error: errorCode });
         } else {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(500).json({
                 success: false,
                 error: "ERROR_CREATING_USER"
@@ -190,6 +202,7 @@ const resetPassword = async (req, res, next) => {
 
         const user = await UserModel.findOne({ email });
         if (!user) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(404).json({
                 success: false,
                 error: "USER_NOT_FOUND"
@@ -199,6 +212,7 @@ const resetPassword = async (req, res, next) => {
         user.password = hashedPassword;
         await user.save();
 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(200).json({
             success: true,
             message: "PASSWORD_RESET_SUCCESS"
@@ -207,6 +221,7 @@ const resetPassword = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'resetPassword', user: req.body.email });
         console.error("Error resetting password:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({
             success: false,
             error: "ERROR_RESETTING_PASSWORD"
@@ -246,6 +261,7 @@ const googleAuth = async (req, res, next) => {
 
         // --- ПРОВЕРКА ЗА ОДОБРЕНИЕ ПРИ GOOGLE ВХОД ---
         if (!user.isAccepted && !user.isAdmin) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(403).json({ 
                 success: false, 
                 error: 'ACCOUNT_NOT_APPROVED' 
@@ -254,6 +270,7 @@ const googleAuth = async (req, res, next) => {
 
         // --- 2FA ПРОВЕРКА ПРИ GOOGLE ВХОД ---
         if (user.isTwoFactorEnabled) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(200).json({
                 success: true,
                 requires2FA: true,
@@ -268,6 +285,7 @@ const googleAuth = async (req, res, next) => {
         // Генериране на JWT токен и за Google потребителя
         const token = generateToken(user);
 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(200).json({
             success: true,
             message: "GOOGLE_LOGIN_SUCCESS",
@@ -290,6 +308,7 @@ const googleAuth = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'googleAuth', user: req.body.userData?.email });
         console.error("Error in Google Auth:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({
             success: false,
             error: "GOOGLE_AUTH_ERROR"
@@ -304,6 +323,7 @@ const updateField = async (req, res, next) => {
         const user = await UserModel.findById(id);
   
         if (!user) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(404).json({
                 success: false,
                 error: "USER_NOT_FOUND"
@@ -315,6 +335,7 @@ const updateField = async (req, res, next) => {
         } else if (["name", "phoneNumber", "email", "firstLogin"].includes(field)) {
             user[field] = newValue;
         } else {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(400).json({
                 success: false,
                 error: "INVALID_FIELD"
@@ -323,6 +344,7 @@ const updateField = async (req, res, next) => {
   
         await user.save();
   
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(200).json({
             success: true,
             message: "FIELD_UPDATED_SUCCESS"
@@ -330,6 +352,7 @@ const updateField = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'updateUserField', user: req.body.id });
         console.error("Error updating user field:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({
             success: false,
             error: "ERROR_UPDATING_FIELD"
@@ -344,10 +367,12 @@ const deleteAccount = async (req, res, next) => {
 
     if (!result.success) throw new Error(result.error);
 
+    // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
     res.status(200).json({ success: true, message: "ACCOUNT_DELETED_SUCCESS" });
   } catch (err) {
     logError(err, req, { className: 'user.controller', functionName: 'deleteAccount' });
     console.error("Error deleting user account:", err);
+    // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
     res.status(500).json({ success: false, error: "ERROR_DELETING_ACCOUNT" });
   }
 };
@@ -359,6 +384,7 @@ const getAllUsers = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'getAllUsers' });
         console.error("Error getting users:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: 'ERROR_FETCHING_USERS' });
     }
 };
@@ -372,6 +398,7 @@ const updateUser = async (req, res, next) => {
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'updateUser' });
         console.error("Error updating user:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: 'ERROR_UPDATING_USER' });
     }
 };
@@ -380,20 +407,26 @@ const generate2FA = async (req, res, next) => {
     try {
         const { userId } = req.body;
         const user = await UserModel.findById(userId);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         if (!user) return res.status(404).json({ success: false, error: "USER_NOT_FOUND" });
 
         if (user.isTwoFactorEnabled) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(400).json({ success: false, error: "2FA_ALREADY_ENABLED" });
         }
 
+        // генерира се тайния ключ чрез библиотеката speakeasy
         const secret = speakeasy.generateSecret({ name: `OSI-HR (${user.email})` });
         
+        // генерират се резервните кодове в 16-тична бройна система
         const recoveryCodes = Array.from({ length: 5 }, () => crypto.randomBytes(4).toString('hex'));
 
-        user.twoFactorSecret = secret.base32;
+        // запазват се в документа в базата даннни
+        user.twoFactorSecret = secret.base32; // хеширане на тайния ключ
         user.twoFactorRecoveryCodes = recoveryCodes.map(code => hashPassword(code));
         await user.save();
 
+        // генерира се QR кода
         const qrCodeDataUrl = await QRCode.toDataURL(secret.otpauth_url);
 
         res.status(200).json({
@@ -404,6 +437,7 @@ const generate2FA = async (req, res, next) => {
         });
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'generate2FA' });
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "ERROR_GENERATING_2FA" });
     }
 };
@@ -413,6 +447,10 @@ const verify2FASetup = async (req, res, next) => {
         const { userId, token } = req.body;
         const user = await UserModel.findById(userId);
 
+        // извършва математическа проверка на базата на времето (Time-Based One-Time Password)
+        // Когато тази функция се изпълни, сървърът взима тайната (secret) и текущия час, 
+        // след което сам изчислява какъв би трябвало да бъде 6-цифреният код точно в тази секунда. 
+        // Накрая сравнява своето изчисление с кода, даден от потребителя.
         const verified = speakeasy.totp.verify({
             secret: user.twoFactorSecret,
             encoding: 'base32',
@@ -432,12 +470,15 @@ const verify2FASetup = async (req, res, next) => {
                 <p>Your account is now more secure. If you did not make this change, please contact an administrator immediately.</p>`
             );
 
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             res.status(200).json({ success: true, message: "2FA_ACTIVATED_SUCCESS" });
         } else {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             res.status(400).json({ success: false, error: "INVALID_2FA_CODE" });
         }
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'verify2FASetup' });
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "ERROR_VERIFYING_2FA_SETUP" });
     }
 };
@@ -448,11 +489,17 @@ const verify2FALogin = async (req, res, next) => {
         const user = await UserModel.findById(userId);
 
         if (!user || !user.isTwoFactorEnabled) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(400).json({ success: false, error: "INVALID_REQUEST" });
         }
 
+        // подменя интервали, табулации и нови редове (\s) в целия текст (/g)
         const cleanToken = token.replace(/\s+/g, '');
 
+        // извършва математическа проверка на базата на времето (Time-Based One-Time Password)
+        // Когато тази функция се изпълни, сървърът взима тайната (secret) и текущия час, 
+        // след което сам изчислява какъв би трябвало да бъде 6-цифреният код точно в тази секунда. 
+        // Накрая сравнява своето изчисление с кода, даден от потребителя.
         const verified = speakeasy.totp.verify({
             secret: user.twoFactorSecret,
             encoding: 'base32',
@@ -462,6 +509,7 @@ const verify2FALogin = async (req, res, next) => {
 
         let isRecovery = false;
         
+        // ако е използван някой от резервните кодове, той се премахва от базата данни за да не може да се използва повече
         if (!verified) {
             const hashedToken = hashPassword(cleanToken);
             if (user.twoFactorRecoveryCodes.includes(hashedToken)) {
@@ -476,6 +524,7 @@ const verify2FALogin = async (req, res, next) => {
 
             const jwtToken = generateToken(user);
 
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             res.status(200).json({
                 success: true,
                 message: "LOGIN_SUCCESS",
@@ -495,10 +544,12 @@ const verify2FALogin = async (req, res, next) => {
                 }
             });
         } else {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             res.status(400).json({ success: false, error: "INVALID_2FA_CODE" });
         }
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'verify2FALogin' });
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "ERROR_VERIFYING_2FA_LOGIN" });
     }
 };
@@ -513,6 +564,7 @@ const disable2FA = async (req, res, next) => {
         user.twoFactorRecoveryCodes = [];
         await user.save();
 
+        // изпраща се предупредителен имейл, че 2FA е изключена
         await sendEmail(
             user.email,
             "Security Alert: Two-Factor Authentication Disabled",
@@ -521,9 +573,11 @@ const disable2FA = async (req, res, next) => {
             <p>Your account is now less secure. If you did not authorize this action, please contact an administrator immediately and change your password.</p>`
         );
 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(200).json({ success: true, message: "2FA_DISABLED_SUCCESS" });
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'disable2FA' });
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "ERROR_DISABLING_2FA" });
     }
 };
@@ -534,11 +588,13 @@ const approveUser = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await UserModel.findById(id);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         if (!user) return res.status(404).json({ success: false, error: "USER_NOT_FOUND" });
 
         user.isAccepted = true;
         await user.save();
 
+        // изпраща се имейл на одобрения потребител, че профилът му е активен
         await sendEmail(
             user.email,
             "Your OSI-HR profile has been approved!",
@@ -550,6 +606,7 @@ const approveUser = async (req, res) => {
         res.json({ success: true, message: "USER_APPROVED_SUCCESS" });
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'approveUser' });
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "ERROR_APPROVING_USER" });
     }
 };
@@ -558,13 +615,16 @@ const rejectUser = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await UserModel.findById(id);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         if (!user) return res.status(404).json({ success: false, error: "USER_NOT_FOUND" });
 
         const email = user.email;
         const name = user.name;
 
+        // потребителят се изтрива за винаги от базата данни
         await deleteUserAndRelatedData(id);
 
+        // изпраща се имейл на отказания потребител, че заявката му е отхвърлена
         await sendEmail(
             email,
             "Information regarding your OSI-HR request",
@@ -576,6 +636,7 @@ const rejectUser = async (req, res) => {
         res.json({ success: true, message: "USER_REJECTED_SUCCESS" });
     } catch (err) {
         logError(err, req, { className: 'user.controller', functionName: 'rejectUser' });
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "ERROR_REJECTING_USER" });
     }
 };

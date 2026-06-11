@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-// CORS конфигурация за React (3000) и Vite (5173)
+// CORS конфигурация (кой има право да изпраща заявки към сървъра) за React (3000) и Vite (5173)
 app.use(cors({
   origin: [
     'http://localhost:3000',
@@ -40,8 +40,8 @@ if (!mongoDbConnection) {
 
 // Свързване с базата данни
 mongoose.connect(mongoDbConnection, {
-    family: 4, 
-    serverSelectionTimeoutMS: 5000 
+    family: 4, // интернет протокол IPv4
+    serverSelectionTimeoutMS: 5000 // чака 5 секунди да открие БД
 })
 .then(() => {
     console.log("[+] Successfully connected to MongoDB Atlas!");

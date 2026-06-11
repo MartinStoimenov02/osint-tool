@@ -1,23 +1,23 @@
 const mongoose = require('mongoose');
 
 const savedProfileSchema = new mongoose.Schema({
-    target: { 
+    target: { // username
         type: String, 
         required: true 
     },
     profile: {
         name: String,
-        bio: String,
-        location: String,
-        company: String,
-        avatar_url: String
+        bio: String, // описанието от профила, ако е попълнено
+        location: String, // града от профила, ако е попълнен
+        company: String, // текущия работодател, ако е попълнен
+        avatar_url: String // URL към профилната му снимка
     },
     extracted_emails: [String],
     
     // Mixed - за сложни/динамични обекти
-    ai_profiling: mongoose.Schema.Types.Mixed,
-    osint_extras: mongoose.Schema.Types.Mixed,
-    repositories: mongoose.Schema.Types.Mixed,
+    ai_profiling: mongoose.Schema.Types.Mixed, // готовият анализ от изкуствения интелект
+    osint_extras: mongoose.Schema.Types.Mixed, // допълнителни разузнавателни данни
+    repositories: mongoose.Schema.Types.Mixed, // проектите на кандидата
     
     // Връзка към потребителя, който е запазил профила (HR)
     savedBy: { 

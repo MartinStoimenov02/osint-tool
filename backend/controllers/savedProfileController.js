@@ -7,6 +7,7 @@ const saveProfile = async (req, res) => {
         const profileData = req.body;
 
         if (!profileData || !profileData.target) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(400).json({ success: false, error: "MISSING_PROFILE_DATA" });
         }
 
@@ -17,6 +18,7 @@ const saveProfile = async (req, res) => {
         });
 
         if (existingProfile) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(409).json({ 
                 success: false, 
                 error: "PROFILE_ALREADY_SAVED" 
@@ -25,7 +27,7 @@ const saveProfile = async (req, res) => {
 
         // Създаване на записа
         const newSavedProfile = new SavedProfile({
-            target: profileData.target,
+            target: profileData.target, // username 
             profile: profileData.profile,
             extracted_emails: profileData.extracted_emails,
             ai_profiling: profileData.ai_profiling,
@@ -36,6 +38,7 @@ const saveProfile = async (req, res) => {
 
         await newSavedProfile.save();
 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(201).json({ 
             success: true, 
             message: "PROFILE_SAVED_SUCCESSFULLY" 
@@ -45,8 +48,10 @@ const saveProfile = async (req, res) => {
         console.error("Грешка при запазване на профил:", err);
         // Хващане на Duplicate Key грешка от MongoDB (код 11000)
         if (err.code === 11000) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(409).json({ success: false, error: "PROFILE_ALREADY_SAVED" });
         }
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "SERVER_ERROR_SAVING" });
     }
 };
@@ -62,6 +67,7 @@ const getSavedProfiles = async (req, res) => {
         res.status(200).json({ success: true, profiles });
     } catch (err) {
         console.error("Грешка при извличане на профили:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "SERVER_ERROR_FETCHING" });
     }
 };
@@ -76,12 +82,15 @@ const deleteSavedProfile = async (req, res) => {
         const deletedProfile = await SavedProfile.findOneAndDelete({ target: target, savedBy: userId });
 
         if (!deletedProfile) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(404).json({ success: false, error: "PROFILE_NOT_FOUND" });
         }
 
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(200).json({ success: true, message: "PROFILE_DELETED_SUCCESSFULLY" });
     } catch (err) {
         console.error("Грешка при изтриване на профил:", err);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         res.status(500).json({ success: false, error: "SERVER_ERROR_DELETING" });
     }
 };

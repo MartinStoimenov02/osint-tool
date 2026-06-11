@@ -1,3 +1,6 @@
+// Целият HTML и Tailwind CSS код за това как ще изглежда генерираният документ: 
+// къде ще е снимката, как ще са подредени колоните, шрифтовете и иконките.
+
 import React, { forwardRef } from 'react';
 import { FaGithub, FaMapMarkerAlt, FaBuilding, FaEnvelope, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next'; // <-- ИМПОРТ ЗА ПРЕВОДИТЕ

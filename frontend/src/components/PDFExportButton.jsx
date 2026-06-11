@@ -1,3 +1,7 @@
+// Този бутон приема мишената (contentRef). 
+// Когато се натисне, взима каквотоима в contentRef и го превръща в PDF. 
+// Тук се задават системни настройки (страницата трябва да е А4 формат)
+
 import React from 'react';
 import { FaFilePdf } from 'react-icons/fa';
 import { useReactToPrint } from 'react-to-print';

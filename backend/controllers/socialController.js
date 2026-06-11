@@ -4,6 +4,7 @@ const scanUsername = async (req, res) => {
     try {
         const { username } = req.query;
         if (!username) {
+            // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
             return res.status(400).json({ error: 'MISSING_USERNAME' });
         }
 
@@ -22,6 +23,7 @@ const scanUsername = async (req, res) => {
 
     } catch (error) {
         console.error("Social Scanner Error:", error.message);
+        // Връща се системен код вместо текст, за да се обработи във фронтенда и да се преведе
         return res.status(500).json({ error: 'SOCIAL_SCAN_ERROR' });
     }
 };

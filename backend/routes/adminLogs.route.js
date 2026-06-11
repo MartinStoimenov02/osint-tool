@@ -15,7 +15,6 @@ const router = express.Router();
  * Всички рутове тук изискват ТОКЕН + АДМИНСКИ ПРАВА.
  * Никой обикновен потребител не трябва да знае, че тези пътища съществуват.
  */
-
 router.get('/getAllLogs', authMiddleware, adminMiddleware, getAllLogs);
 router.delete('/deleteLogById/:id', authMiddleware, adminMiddleware, deleteLogById);
 router.post('/deleteMultipleLogs', authMiddleware, adminMiddleware, deleteMultipleLogs);

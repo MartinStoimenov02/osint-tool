@@ -21,10 +21,13 @@ const UserScheme = new mongoose.Schema({
     },
     phoneNumber: {
         type: String,
-        unique: true,
+        unique: true, // Ако има телефон, той трябва да е уникален
         sparse: true, 
         set: function (val) {
-            return val && val.trim() !== "" ? val : undefined;  
+            // телефонът има ли подадена стойност и ако ѝ махнем празните интервали, тя различна ли е от празен текст?
+            // Ако проверката е успешна (има истински номер), функцията връща самия номер (val) и той се записва.
+            // Ако полето е било празно, функцията връща undefined.
+            return val && val.trim() !== "" ? val : undefined; 
         },
     },
     firstLogin: {
